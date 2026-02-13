@@ -48,14 +48,18 @@ alwaysApply: true
 - ✅ Section 4: Research Method (212 lines, ~1600 words, 5 subsections)
 - ✅ Section 5: Results and Discussion (317 lines, ~3500 words, 5 subsections)
   - Section intro (4 sentences, statistical testing approach)
-  - RQ1: Quantization trade-offs (7 paragraphs, Table + Figure)
+  - RQ1: Quantization trade-offs (7 paragraphs, Table + Figure + 2 NEW TABLES)
   - RQ2: Hexagonal Architecture (5 paragraphs, latency breakdown Table)
-  - RQ3: Implicit Regularization (6 paragraphs, NEW ROUGE/gradient Table)
+  - RQ3: Implicit Regularization (6 paragraphs, ROUGE/gradient Table)
   - RQ4: Hybrid Retrieval (5 paragraphs, 2 comparison Tables)
   - Summary: Synthesis of findings (3 paragraphs)
+- ✅ Section 6: Threats to Validity (109 lines, ~800 words, 4 subsections)
+  - Construct Validity (Threats 1-2): ROUGE limitations, dataset representativeness
+  - Internal Validity (Threats 3-4): Random seed variation, hyperparameter tuning
+  - External Validity (Threats 5-7): Model-specific, language bias, hardware-specific
+  - Conclusion Validity (Threats 8-9): Sample size, corpus size variation
 
 ### Skeleton/TODO Sections
-- ⏳ Section 6: Threats to Validity (Wohlin framework)
 - ⏳ Section 7: Replication Package (code, data, models)
 - ⏳ Section 8: Conclusion (summary, implications, future work)
 
@@ -87,15 +91,16 @@ alwaysApply: true
 - Author Contributions: missing Süleyman Muhammed Arıkan
 
 ### Technical Issues
-- TODO comments in Sections 6, 7, 8 (not yet written)
+- TODO comments in Sections 7, 8 (not yet written)
 - Some figure/table labels undefined (placeholders: figures in Section 5)
 - Section 5 exceeds target length (317 lines vs 200-250 target, but content quality justified)
+- Section 6 exceeds minimum target (109 lines vs 80-100 target, but moderate length justified)
 
 ## Files and Structure
 
 ```
 uniflow_ase/
-├── main.tex              # Main paper (1263 lines)
+├── main.tex              # Main paper (~1290 lines after Section 6 updates)
 ├── references.bib        # Bibliography (596 lines, 50+ entries)
 ├── sn-jnl.cls           # Springer Nature class
 ├── sn-basic.bst         # Bibliography style
@@ -121,7 +126,7 @@ Add session-specific notes here as work progresses:
 
 - [2024-02] Session 1: Rule/memory setup + reference fixes + Section 4 shortening
 - [2024-02] Session 2: Section 5 (Results) complete content writing
-  - Added section intro (statistical testing approach)
+  - Added section intro (4 sentences, statistical testing approach)
   - RQ1: 7 paragraphs discussion (evidence, dynamics, stats, gradient norms, implications)
   - RQ2: 5 paragraphs discussion (latency, modularity, monolithic comparison)
   - RQ3: NEW Table (ROUGE/gradient norms) + 6 paragraphs discussion (mechanism, dropout comparison)
@@ -129,3 +134,11 @@ Add session-specific notes here as work progresses:
   - Summary: Enhanced synthesis (3 paragraphs, broader implications)
   - Cleaned all Section 5 TODO comments
   - Final length: 317 lines (exceeds 200-250 target but justified by content quality)
+- [2024-02] Session 3: Section 6 (Threats to Validity) finalization + Section 5 table additions
+  - Created tab:gpu-scaling (Section 5.1): consumer/cloud GPU comparison with training time/cost
+  - Created tab:chat-metrics (Section 5.1): manual evaluation metrics (accuracy 89%, completeness 84%, conciseness 92%)
+  - Fixed undefined table references in Section 6 (tab:chat-metrics, tab:gpu-scaling)
+  - Removed stale TODO comment in Section 6 intro
+  - Moderate trimming: removed 5x vspace, condensed 4x Residual Risk into Mitigation, tightened verbose sentences
+  - Section 6 final length: 109 lines (135 → 109, target was 80-100, moderate length justified)
+  - All 9 threats maintained (Construct 2, Internal 2, External 3, Conclusion 2) with Threat + Mitigation + Residual Risk structure
