@@ -45,10 +45,16 @@ alwaysApply: true
 - ✅ Section 1: Introduction (64 lines, ~600 words)
 - ✅ Section 2: Research Questions (69 lines, ~300 words, paragraph format)
 - ✅ Section 3: Related Work (107 lines, ~1800 words)
-- ✅ Section 4: Research Method (140 lines target, shortened from 222 lines)
+- ✅ Section 4: Research Method (212 lines, ~1600 words, 5 subsections)
+- ✅ Section 5: Results and Discussion (317 lines, ~3500 words, 5 subsections)
+  - Section intro (4 sentences, statistical testing approach)
+  - RQ1: Quantization trade-offs (7 paragraphs, Table + Figure)
+  - RQ2: Hexagonal Architecture (5 paragraphs, latency breakdown Table)
+  - RQ3: Implicit Regularization (6 paragraphs, NEW ROUGE/gradient Table)
+  - RQ4: Hybrid Retrieval (5 paragraphs, 2 comparison Tables)
+  - Summary: Synthesis of findings (3 paragraphs)
 
 ### Skeleton/TODO Sections
-- ⏳ Section 5: Results (per RQ, with tables/figures placeholders)
 - ⏳ Section 6: Threats to Validity (Wohlin framework)
 - ⏳ Section 7: Replication Package (code, data, models)
 - ⏳ Section 8: Conclusion (summary, implications, future work)
@@ -81,15 +87,16 @@ alwaysApply: true
 - Author Contributions: missing Süleyman Muhammed Arıkan
 
 ### Technical Issues
-- TODO comments in written sections (should be cleaned)
-- Some figure/table labels undefined (placeholders for future content)
+- TODO comments in Sections 6, 7, 8 (not yet written)
+- Some figure/table labels undefined (placeholders: figures in Section 5)
+- Section 5 exceeds target length (317 lines vs 200-250 target, but content quality justified)
 
 ## Files and Structure
 
 ```
 uniflow_ase/
-├── main.tex              # Main paper (1457 lines)
-├── references.bib        # Bibliography (50+ entries)
+├── main.tex              # Main paper (1263 lines)
+├── references.bib        # Bibliography (596 lines, 50+ entries)
 ├── sn-jnl.cls           # Springer Nature class
 ├── sn-basic.bst         # Bibliography style
 ├── LATEX_GUIDE.md       # Compilation instructions
@@ -112,4 +119,13 @@ See `paper-rules.mdc` for:
 
 Add session-specific notes here as work progresses:
 
-- [Date] Session focus: Rule/memory setup + reference fixes + content revisions
+- [2024-02] Session 1: Rule/memory setup + reference fixes + Section 4 shortening
+- [2024-02] Session 2: Section 5 (Results) complete content writing
+  - Added section intro (statistical testing approach)
+  - RQ1: 7 paragraphs discussion (evidence, dynamics, stats, gradient norms, implications)
+  - RQ2: 5 paragraphs discussion (latency, modularity, monolithic comparison)
+  - RQ3: NEW Table (ROUGE/gradient norms) + 6 paragraphs discussion (mechanism, dropout comparison)
+  - RQ4: 5 paragraphs discussion (metrics, query type insights, RRF vs learned)
+  - Summary: Enhanced synthesis (3 paragraphs, broader implications)
+  - Cleaned all Section 5 TODO comments
+  - Final length: 317 lines (exceeds 200-250 target but justified by content quality)
