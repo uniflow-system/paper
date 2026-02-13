@@ -1,0 +1,124 @@
+{
+    // =========================================================================
+    // VS Code LaTeX Workshop Ayarları
+    // =========================================================================
+
+    // LaTeX build araçları (tools)
+    "latex-workshop.latex.tools": [
+        {
+            "name": "latexmk",
+            "command": "latexmk",
+            "args": [
+                "-pdf",
+                "-interaction=nonstopmode",
+                "-synctex=1",
+                "-file-line-error",
+                "-outdir=%OUTDIR%",
+                "%DOC%"
+            ],
+            "env": {}
+        },
+        {
+            "name": "pdflatex",
+            "command": "pdflatex",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "%DOC%"
+            ],
+            "env": {}
+        },
+        {
+            "name": "bibtex",
+            "command": "bibtex",
+            "args": [
+                "%DOCFILE%"
+            ],
+            "env": {}
+        }
+    ],
+
+    // LaTeX build tarifleri (recipes)
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "latexmk (ÖNERİLEN)",
+            "tools": [
+                "latexmk"
+            ]
+        },
+        {
+            "name": "pdflatex",
+            "tools": [
+                "pdflatex"
+            ]
+        },
+        {
+            "name": "pdflatex → bibtex → pdflatex × 2",
+            "tools": [
+                "pdflatex",
+                "bibtex",
+                "pdflatex",
+                "pdflatex"
+            ]
+        }
+    ],
+
+    // Otomatik build ayarları
+    "latex-workshop.latex.autoBuild.run": "onSave",
+    "latex-workshop.latex.autoBuild.cleanAndRetry.enabled": true,
+
+    // PDF görüntüleyici
+    "latex-workshop.view.pdf.viewer": "tab",
+    "latex-workshop.view.pdf.internal.synctex.keybinding": "double-click",
+
+    // Temizleme ayarları
+    "latex-workshop.latex.clean.fileTypes": [
+        "*.aux",
+        "*.bbl",
+        "*.blg",
+        "*.idx",
+        "*.ind",
+        "*.lof",
+        "*.lot",
+        "*.out",
+        "*.toc",
+        "*.acn",
+        "*.acr",
+        "*.alg",
+        "*.glg",
+        "*.glo",
+        "*.gls",
+        "*.fls",
+        "*.log",
+        "*.fdb_latexmk",
+        "*.snm",
+        "*.synctex.gz",
+        "*.nav"
+    ],
+
+    // Hata ve uyarı mesajları
+    "latex-workshop.message.error.show": true,
+    "latex-workshop.message.warning.show": false,
+
+    // IntelliSense ayarları
+    "latex-workshop.intellisense.package.enabled": true,
+    "latex-workshop.intellisense.citation.backend": "bibtex",
+
+    // LaTeX format ayarları
+    "latex-workshop.formatting.latex": "latexindent",
+
+    // Linting ayarları (chktex uyarısını kapatmak için)
+    "latex-workshop.linting.chktex.enabled": false,
+    "latex-workshop.linting.lacheck.enabled": false,
+
+    // Özel ayarlar
+    "files.associations": {
+        "*.tex": "latex"
+    },
+
+    // Terminal encoding (Türkçe karakterler için)
+    "terminal.integrated.env.osx": {
+        "LC_ALL": "en_US.UTF-8"
+    }
+}

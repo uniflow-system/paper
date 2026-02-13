@@ -1,0 +1,545 @@
+% =========================================================================
+% REFERENCES.BIB - Bibliography for UniFlow ASE Journal Submission
+% =========================================================================
+% This file contains all citations referenced in main.tex
+% Format: SPBASIC style (author-year)
+% Include DOI for all papers where available
+% =========================================================================
+
+% -------------------------------------------------------------------------
+% REGULARIZATION TECHNIQUES
+% -------------------------------------------------------------------------
+
+@article{srivastava2014dropout,
+  author    = {Srivastava, Nitish and Hinton, Geoffrey and Krizhevsky, Alex and Sutskever, Ilya and Salakhutdinov, Ruslan},
+  title     = {Dropout: A Simple Way to Prevent Neural Networks from Overfitting},
+  journal   = {Journal of Machine Learning Research},
+  year      = {2014},
+  volume    = {15},
+  number    = {56},
+  pages     = {1929--1958},
+  url       = {https://jmlr.org/papers/v15/srivastava14a.html}
+}
+
+% -------------------------------------------------------------------------
+% FOUNDATIONAL LLM MODELS
+% -------------------------------------------------------------------------
+
+@article{vaswani2017attention,
+  author    = {Vaswani, Ashish and Shazeer, Noam and Parmar, Niki and Uszkoreit, Jakob and Jones, Llion and Gomez, Aidan N. and Kaiser, Lukasz and Polosukhin, Illia},
+  title     = {Attention Is All You Need},
+  journal   = {Advances in Neural Information Processing Systems (NeurIPS)},
+  year      = {2017},
+  volume    = {30},
+  pages     = {5998--6008},
+  url       = {https://arxiv.org/abs/1706.03762}
+}
+
+@article{devlin2019bert,
+  author    = {Devlin, Jacob and Chang, Ming-Wei and Lee, Kenton and Toutanova, Kristina},
+  title     = {{BERT}: Pre-training of Deep Bidirectional Transformers for Language Understanding},
+  journal   = {Proceedings of NAACL-HLT},
+  year      = {2019},
+  pages     = {4171--4186},
+  doi       = {10.18653/v1/N19-1423}
+}
+
+@article{brown2020gpt3,
+  author    = {Brown, Tom B. and Mann, Benjamin and Ryder, Nick and Subbiah, Melanie and Kaplan, Jared and Dhariwal, Prafulla and Neelakantan, Arvind and Shyam, Pranav and Sastry, Girish and Askell, Amanda and others},
+  title     = {Language Models are Few-Shot Learners},
+  journal   = {Advances in Neural Information Processing Systems (NeurIPS)},
+  year      = {2020},
+  volume    = {33},
+  pages     = {1877--1901},
+  url       = {https://arxiv.org/abs/2005.14165}
+}
+
+% -------------------------------------------------------------------------
+% PARAMETER-EFFICIENT FINE-TUNING (PEFT)
+% -------------------------------------------------------------------------
+
+@inproceedings{houlsby2019adapters,
+  author    = {Houlsby, Neil and Giurgiu, Andrei and Jastrzebski, Stanislaw and Morrone, Bruna and de Laroussilhe, Quentin and Gesmundo, Andrea and Attariyan, Mona and Gelly, Sylvain},
+  title     = {Parameter-Efficient Transfer Learning for {NLP}},
+  booktitle = {Proceedings of the 36th International Conference on Machine Learning (ICML)},
+  year      = {2019},
+  pages     = {2790--2799},
+  url       = {http://proceedings.mlr.press/v97/houlsby19a.html}
+}
+
+@inproceedings{li2021prefix,
+  author    = {Li, Xiang Lisa and Liang, Percy},
+  title     = {Prefix-Tuning: Optimizing Continuous Prompts for Generation},
+  booktitle = {Proceedings of the 59th Annual Meeting of the Association for Computational Linguistics (ACL)},
+  year      = {2021},
+  pages     = {4582--4597},
+  doi       = {10.18653/v1/2021.acl-long.353}
+}
+
+@inproceedings{hu2022lora,
+  author    = {Hu, Edward J. and Shen, Yelong and Wallis, Phillip and Allen-Zhu, Zeyuan and Li, Yuanzhi and Wang, Shean and Wang, Lu and Chen, Weizhu},
+  title     = {{LoRA}: Low-Rank Adaptation of Large Language Models},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2022},
+  url       = {https://openreview.net/forum?id=nZeVKeeFYf9}
+}
+
+@article{dettmers2023qlora,
+  author    = {Dettmers, Tim and Pagnoni, Artidoro and Holtzman, Ari and Zettlemoyer, Luke},
+  title     = {{QLoRA}: Efficient Finetuning of Quantized {LLMs}},
+  journal   = {Advances in Neural Information Processing Systems (NeurIPS)},
+  year      = {2023},
+  volume    = {36},
+  url       = {https://arxiv.org/abs/2305.14314}
+}
+
+% -------------------------------------------------------------------------
+% RETRIEVAL-AUGMENTED GENERATION (RAG)
+% -------------------------------------------------------------------------
+
+@inproceedings{lewis2020rag,
+  author    = {Lewis, Patrick and Perez, Ethan and Piktus, Aleksandra and Petroni, Fabio and Karpukhin, Vladimir and Goyal, Naman and K{\"u}ttler, Heinrich and Lewis, Mike and Yih, Wen-tau and Rockt{\"a}schel, Tim and Riedel, Sebastian and Kiela, Douwe},
+  title     = {Retrieval-Augmented Generation for Knowledge-Intensive {NLP} Tasks},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  year      = {2020},
+  volume    = {33},
+  pages     = {9459--9474},
+  url       = {https://arxiv.org/abs/2005.11401}
+}
+
+@article{guu2020realm,
+  author    = {Guu, Kelvin and Lee, Kenton and Tung, Zora and Pasupat, Panupong and Chang, Ming-Wei},
+  title     = {{REALM}: Retrieval-Augmented Language Model Pre-Training},
+  journal   = {Proceedings of the 37th International Conference on Machine Learning (ICML)},
+  year      = {2020},
+  pages     = {3929--3938},
+  url       = {https://arxiv.org/abs/2002.08909}
+}
+
+@article{borgeaud2022retro,
+  author    = {Borgeaud, Sebastian and Mensch, Arthur and Hoffmann, Jordan and Cai, Trevor and Rutherford, Eliza and Millican, Katie and van den Driessche, George and Lespiau, Jean-Baptiste and Damoc, Bogdan and Clark, Aidan and others},
+  title     = {Improving Language Models by Retrieving from Trillions of Tokens},
+  journal   = {Proceedings of the 39th International Conference on Machine Learning (ICML)},
+  year      = {2022},
+  pages     = {2206--2240},
+  url       = {https://arxiv.org/abs/2112.04426}
+}
+
+@article{izacard2023atlas,
+  author    = {Izacard, Gautier and Lewis, Patrick and Lomeli, Maria and Hosseini, Lucas and Petroni, Fabio and Schick, Timo and Dwivedi-Yu, Jane and Joulin, Armand and Riedel, Sebastian and Grave, Edouard},
+  title     = {Atlas: Few-shot Learning with Retrieval Augmented Language Models},
+  journal   = {Journal of Machine Learning Research},
+  year      = {2023},
+  volume    = {24},
+  number    = {251},
+  pages     = {1--43},
+  url       = {https://arxiv.org/abs/2208.03299}
+}
+
+% -------------------------------------------------------------------------
+% INFORMATION RETRIEVAL
+% -------------------------------------------------------------------------
+
+@inproceedings{robertson2009bm25,
+  author    = {Robertson, Stephen and Zaragoza, Hugo},
+  title     = {The Probabilistic Relevance Framework: {BM25} and Beyond},
+  booktitle = {Foundations and Trends in Information Retrieval},
+  year      = {2009},
+  volume    = {3},
+  number    = {4},
+  pages     = {333--389},
+  doi       = {10.1561/1500000019}
+}
+
+@inproceedings{karpukhin2020dpr,
+  author    = {Karpukhin, Vladimir and O{\u{g}}uz, Barlas and Min, Sewon and Lewis, Patrick and Wu, Ledell and Edunov, Sergey and Chen, Danqi and Yih, Wen-tau},
+  title     = {Dense Passage Retrieval for Open-Domain Question Answering},
+  booktitle = {Proceedings of the 2020 Conference on Empirical Methods in Natural Language Processing (EMNLP)},
+  year      = {2020},
+  pages     = {6769--6781},
+  doi       = {10.18653/v1/2020.emnlp-main.550}
+}
+
+@inproceedings{khattab2020colbert,
+  author    = {Khattab, Omar and Zaharia, Matei},
+  title     = {{ColBERT}: Efficient and Effective Passage Search via Contextualized Late Interaction over {BERT}},
+  booktitle = {Proceedings of the 43rd International ACM SIGIR Conference on Research and Development in Information Retrieval},
+  year      = {2020},
+  pages     = {39--48},
+  doi       = {10.1145/3397271.3401075}
+}
+
+@inproceedings{reimers2019sbert,
+  author    = {Reimers, Nils and Gurevych, Iryna},
+  title     = {Sentence-{BERT}: Sentence Embeddings using Siamese {BERT}-Networks},
+  booktitle = {Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing (EMNLP)},
+  year      = {2019},
+  pages     = {3982--3992},
+  doi       = {10.18653/v1/D19-1410}
+}
+
+@article{xiao2024bge,
+  author    = {Xiao, Shitao and Liu, Zheng and Zhang, Peitian and Muennighoff, Niklas},
+  title     = {{C-Pack}: Packaged Resources To Advance General Chinese Embedding},
+  journal   = {arXiv preprint arXiv:2309.07597},
+  year      = {2024},
+  url       = {https://arxiv.org/abs/2309.07597}
+}
+
+@article{cormack2009rrf,
+  author    = {Cormack, Gordon V. and Clarke, Charles L. A. and Buettcher, Stefan},
+  title     = {Reciprocal Rank Fusion Outperforms Condorcet and Individual Rank Learning Methods},
+  journal   = {Proceedings of the 32nd International ACM SIGIR Conference},
+  year      = {2009},
+  pages     = {758--759},
+  doi       = {10.1145/1571941.1572114}
+}
+
+% -------------------------------------------------------------------------
+% SOFTWARE ARCHITECTURE
+% -------------------------------------------------------------------------
+
+@book{cockburn2005hexagonal,
+  author    = {Cockburn, Alistair},
+  title     = {Hexagonal Architecture},
+  publisher = {Alistair Cockburn},
+  year      = {2005},
+  url       = {https://alistair.cockburn.us/hexagonal-architecture/}
+}
+
+@book{richardson2018microservices,
+  author    = {Richardson, Chris},
+  title     = {Microservices Patterns: With Examples in Java},
+  publisher = {Manning Publications},
+  year      = {2018},
+  isbn      = {9781617294549}
+}
+
+% -------------------------------------------------------------------------
+% RAG FRAMEWORKS
+% -------------------------------------------------------------------------
+
+@misc{langchain2023,
+  author    = {Chase, Harrison},
+  title     = {{LangChain}},
+  year      = {2023},
+  url       = {https://github.com/langchain-ai/langchain},
+  note      = {Accessed: 2024-12}
+}
+
+@misc{llamaindex2023,
+  author    = {{LlamaIndex Team}},
+  title     = {{LlamaIndex}: Data Framework for {LLM} Applications},
+  year      = {2023},
+  url       = {https://www.llamaindex.ai/},
+  note      = {Accessed: 2024-12}
+}
+
+@misc{haystack2023,
+  author    = {{deepset AI}},
+  title     = {{Haystack}: End-to-End {NLP} Framework},
+  year      = {2023},
+  url       = {https://haystack.deepset.ai/},
+  note      = {Accessed: 2024-12}
+}
+
+% -------------------------------------------------------------------------
+% VECTOR DATABASES
+% -------------------------------------------------------------------------
+
+@misc{qdrant2021,
+  author    = {{Qdrant Team}},
+  title     = {{Qdrant}: Vector Database for the Next Generation of {AI}},
+  year      = {2021},
+  url       = {https://qdrant.tech/},
+  note      = {Accessed: 2024-12}
+}
+
+% -------------------------------------------------------------------------
+% EVALUATION DATASETS
+% -------------------------------------------------------------------------
+
+@inproceedings{gliwa2019samsum,
+  author    = {Gliwa, Bogdan and Mochol, Iwona and Biesek, Maciej and Wawer, Aleksander},
+  title     = {{SAMSum} Corpus: A Human-annotated Dialogue Dataset for Abstractive Summarization},
+  booktitle = {Proceedings of the 2nd Workshop on New Frontiers in Summarization},
+  year      = {2019},
+  pages     = {70--79},
+  doi       = {10.18653/v1/D19-5409}
+}
+
+@inproceedings{chen2021dialogsum,
+  author    = {Chen, Yulong and Liu, Yang and Chen, Liang and Zhang, Yue},
+  title     = {{DialogSum}: A Real-Life Scenario Dialogue Summarization Dataset},
+  booktitle = {Proceedings of the 59th Annual Meeting of the Association for Computational Linguistics (ACL)},
+  year      = {2021},
+  pages     = {5062--5074},
+  doi       = {10.18653/v1/2021.acl-long.391}
+}
+
+@inproceedings{kwiatkowski2019natural,
+  author    = {Kwiatkowski, Tom and Palomaki, Jennimaria and Redfield, Olivia and Collins, Michael and Parikh, Ankur and Alberti, Chris and Epstein, Danielle and Polosukhin, Illia and Devlin, Jacob and Lee, Kenton and others},
+  title     = {Natural Questions: A Benchmark for Question Answering Research},
+  booktitle = {Transactions of the Association for Computational Linguistics},
+  year      = {2019},
+  volume    = {7},
+  pages     = {453--466},
+  doi       = {10.1162/tacl_a_00276}
+}
+
+@inproceedings{bajaj2016msmarco,
+  author    = {Bajaj, Payal and Campos, Daniel and Craswell, Nick and Deng, Li and Gao, Jianfeng and Liu, Xiaodong and Majumder, Rangan and McNamara, Andrew and Mitra, Bhaskar and Nguyen, Tri and others},
+  title     = {{MS MARCO}: A Human Generated Machine Reading Comprehension Dataset},
+  booktitle = {Proceedings of the Workshop on Cognitive Computation: Integrating Neural and Symbolic Approaches (NeurIPS)},
+  year      = {2016},
+  url       = {https://arxiv.org/abs/1611.09268}
+}
+
+@inproceedings{thorne2018fever,
+  author    = {Thorne, James and Vlachos, Andreas and Christodoulopoulos, Christos and Mittal, Arpit},
+  title     = {{FEVER}: a Large-scale Dataset for Fact Extraction and {VERification}},
+  booktitle = {Proceedings of the 2018 Conference of the North American Chapter of the Association for Computational Linguistics (NAACL)},
+  year      = {2018},
+  pages     = {809--819},
+  doi       = {10.18653/v1/N18-1074}
+}
+
+% -------------------------------------------------------------------------
+% AUDIO/VIDEO PROCESSING
+% -------------------------------------------------------------------------
+
+@inproceedings{bain2023whisperx,
+  author    = {Bain, Max and Huh, Jaesung and Han, Tengda and Zisserman, Andrew},
+  title     = {{WhisperX}: Time-Accurate Speech Transcription of Long-Form Audio},
+  booktitle = {Proceedings of INTERSPEECH 2023},
+  year      = {2023},
+  pages     = {5235--5239},
+  doi       = {10.21437/Interspeech.2023-73}
+}
+
+% -------------------------------------------------------------------------
+% EVALUATION METRICS & METHODOLOGY
+% -------------------------------------------------------------------------
+
+@inproceedings{lin2004rouge,
+  author    = {Lin, Chin-Yew},
+  title     = {{ROUGE}: A Package for Automatic Evaluation of Summaries},
+  booktitle = {Text Summarization Branches Out},
+  year      = {2004},
+  pages     = {74--81},
+  url       = {https://aclanthology.org/W04-1013/}
+}
+
+@book{wohlin2012experimentation,
+  author    = {Wohlin, Claes and Runeson, Per and H{\"o}st, Martin and Ohlsson, Magnus C. and Regnell, Bj{\"o}rn and Wessl{\'e}n, Anders},
+  title     = {Experimentation in Software Engineering},
+  publisher = {Springer Science \& Business Media},
+  year      = {2012},
+  doi       = {10.1007/978-3-642-29044-2}
+}
+
+@article{henderson2018deep,
+  author    = {Henderson, Peter and Islam, Riashat and Bachman, Philip and Pineau, Joelle and Precup, Doina and Meger, David},
+  title     = {Deep Reinforcement Learning That Matters},
+  journal   = {Proceedings of the AAAI Conference on Artificial Intelligence},
+  year      = {2018},
+  volume    = {32},
+  number    = {1},
+  doi       = {10.1609/aaai.v32i1.11694}
+}
+
+% -------------------------------------------------------------------------
+% QUANTIZATION & MODEL COMPRESSION
+% -------------------------------------------------------------------------
+
+@article{gholami2022survey,
+  author    = {Gholami, Amir and Kim, Sehoon and Dong, Zhen and Yao, Zhewei and Mahoney, Michael W. and Keutzer, Kurt},
+  title     = {A Survey of Quantization Methods for Efficient Neural Network Inference},
+  journal   = {International Journal of Computer Vision},
+  year      = {2022},
+  volume    = {130},
+  number    = {3},
+  pages     = {535--551},
+  doi       = {10.1007/s11263-021-01544-9}
+}
+
+@inproceedings{jacob2018quantization,
+  author    = {Jacob, Benoit and Kligys, Skirmantas and Chen, Bo and Zhu, Menglong and Tang, Matthew and Howard, Andrew and Adam, Hartwig and Kalenichenko, Dmitry},
+  title     = {Quantization and Training of Neural Networks for Efficient Integer-Arithmetic-Only Inference},
+  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+  year      = {2018},
+  pages     = {2704--2713},
+  doi       = {10.1109/CVPR.2018.00286}
+}
+
+@article{nagel2021white,
+  author    = {Nagel, Markus and Fournarakis, Marios and Amjad, Rana Ali and Bondarenko, Yelysei and van Baalen, Mart and Blankevoort, Tijmen},
+  title     = {A White Paper on Neural Network Quantization},
+  journal   = {arXiv preprint arXiv:2106.08295},
+  year      = {2021},
+  url       = {https://arxiv.org/abs/2106.08295}
+}
+
+@article{gupta2015deep,
+  author    = {Gupta, Suyog and Agrawal, Ankur and Gopalakrishnan, Kailash and Narayanan, Pritish},
+  title     = {Deep Learning with Limited Numerical Precision},
+  journal   = {Proceedings of the 32nd International Conference on Machine Learning (ICML)},
+  year      = {2015},
+  pages     = {1737--1746},
+  url       = {http://proceedings.mlr.press/v37/gupta15.html}
+}
+
+@article{wang2023bitnet,
+  author    = {Wang, Hongyu and Ma, Shuming and Dong, Li and Huang, Shaohan and Wang, Huaijie and Ma, Lingxiao and Yang, Fan and Wang, Ruiping and Wu, Yi and Wei, Furu},
+  title     = {{BitNet}: Scaling 1-bit Transformers for Large Language Models},
+  journal   = {arXiv preprint arXiv:2310.11453},
+  year      = {2023},
+  url       = {https://arxiv.org/abs/2310.11453}
+}
+
+% -------------------------------------------------------------------------
+% MULTIMODAL MODELS
+% -------------------------------------------------------------------------
+
+@inproceedings{radford2021clip,
+  author    = {Radford, Alec and Kim, Jong Wook and Hallacy, Chris and Ramesh, Aditya and Goh, Gabriel and Agarwal, Sandhini and Sastry, Girish and Askell, Amanda and Mishkin, Pamela and Clark, Jack and others},
+  title     = {Learning Transferable Visual Models From Natural Language Supervision},
+  booktitle = {Proceedings of the 38th International Conference on Machine Learning (ICML)},
+  year      = {2021},
+  pages     = {8748--8763},
+  url       = {https://arxiv.org/abs/2103.00020}
+}
+
+@inproceedings{girdhar2023imagebind,
+  author    = {Girdhar, Rohit and El-Nouby, Alaaeldin and Liu, Zhuang and Singh, Mannat and Alwala, Kalyan Vasudev and Joulin, Armand and Misra, Ishan},
+  title     = {{ImageBind}: One Embedding Space To Bind Them All},
+  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+  year      = {2023},
+  pages     = {15180--15190},
+  url       = {https://arxiv.org/abs/2305.05665}
+}
+
+% -------------------------------------------------------------------------
+% RERANKING
+% -------------------------------------------------------------------------
+
+@article{nogueira2020monoT5,
+  author    = {Nogueira, Rodrigo and Jiang, Zhiying and Pradeep, Ronak and Lin, Jimmy},
+  title     = {Document Ranking with a Pretrained Sequence-to-Sequence Model},
+  journal   = {Findings of the Association for Computational Linguistics: EMNLP 2020},
+  year      = {2020},
+  pages     = {708--718},
+  doi       = {10.18653/v1/2020.findings-emnlp.63}
+}
+
+% -------------------------------------------------------------------------
+% QWEN MODEL FAMILY
+% -------------------------------------------------------------------------
+
+@article{qwen2024technical,
+  author    = {{Qwen Team}},
+  title     = {Qwen2.5 Technical Report},
+  journal   = {arXiv preprint arXiv:2412.15115},
+  year      = {2024},
+  url       = {https://arxiv.org/abs/2412.15115}
+}
+
+% -------------------------------------------------------------------------
+% SOFTWARE ENGINEERING METHODOLOGY
+% -------------------------------------------------------------------------
+
+@inproceedings{shaw2003writing,
+  author    = {Shaw, Mary},
+  title     = {Writing Good Software Engineering Research Papers},
+  booktitle = {Proceedings of the 25th International Conference on Software Engineering (ICSE)},
+  year      = {2003},
+  pages     = {726--736},
+  publisher = {IEEE Computer Society},
+  doi       = {10.1109/ICSE.2003.1201262}
+}
+
+% -------------------------------------------------------------------------
+% ADDITIONAL LLM MODELS
+% -------------------------------------------------------------------------
+
+@article{touvron2023llama,
+  author    = {Touvron, Hugo and Lavril, Thibaut and Izacard, Gautier and Martinet, Xavier and Lachaux, Marie-Anne and Lacroix, Timoth{\'e}e and Rozi{\`e}re, Baptiste and Goyal, Naman and Hambro, Eric and Azhar, Faisal and Rodriguez, Aurelien and Joulin, Armand and Grave, Edouard and Lample, Guillaume},
+  title     = {{LLaMA}: Open and Efficient Foundation Language Models},
+  journal   = {arXiv preprint arXiv:2302.13971},
+  year      = {2023},
+  url       = {https://arxiv.org/abs/2302.13971}
+}
+
+% -------------------------------------------------------------------------
+% ADDITIONAL INFORMATION RETRIEVAL
+% -------------------------------------------------------------------------
+
+@article{salton1988tfidf,
+  author    = {Salton, Gerard and Buckley, Christopher},
+  title     = {Term-Weighting Approaches in Automatic Text Retrieval},
+  journal   = {Information Processing \& Management},
+  year      = {1988},
+  volume    = {24},
+  number    = {5},
+  pages     = {513--523},
+  doi       = {10.1016/0306-4573(88)90021-0}
+}
+
+% -------------------------------------------------------------------------
+% SOFTWARE ARCHITECTURE & DOMAIN-DRIVEN DESIGN
+% -------------------------------------------------------------------------
+
+@book{evans2003ddd,
+  author    = {Evans, Eric},
+  title     = {Domain-Driven Design: Tackling Complexity in the Heart of Software},
+  publisher = {Addison-Wesley Professional},
+  year      = {2003},
+  isbn      = {0-321-12521-5}
+}
+
+% -------------------------------------------------------------------------
+% MLOPS & ML SYSTEM INFRASTRUCTURE
+% -------------------------------------------------------------------------
+
+@inproceedings{chen2020mlflow,
+  author    = {Chen, Andrew and Chow, Andy and Davidson, Aaron and DCunha, Arjun and Ghodsi, Ali and Hong, Sue Ann and Konwinski, Andy and Mewald, Clemens and Murching, Siddharth and Nykodym, Tomas and others},
+  title     = {Developments in {MLflow}: A System to Accelerate the Machine Learning Lifecycle},
+  booktitle = {Proceedings of the Fourth International Workshop on Data Management for End-to-End Machine Learning (DEEM)},
+  year      = {2020},
+  pages     = {1--4},
+  doi       = {10.1145/3399579.3399867}
+}
+
+@article{paleyes2022mle,
+  author    = {Paleyes, Andrei and Urma, Raoul-Gabriel and Lawrence, Neil D.},
+  title     = {Challenges in Deploying Machine Learning: A Survey of Case Studies},
+  journal   = {ACM Computing Surveys},
+  year      = {2022},
+  volume    = {55},
+  number    = {6},
+  pages     = {1--29},
+  doi       = {10.1145/3533378}
+}
+
+@inproceedings{sculley2015debt,
+  author    = {Sculley, D. and Holt, Gary and Golovin, Daniel and Davydov, Eugene and Phillips, Todd and Ebner, Dietmar and Chaudhary, Vinay and Young, Michael and Crespo, Jean-Fran{\c{c}}ois and Dennison, Dan},
+  title     = {Hidden Technical Debt in Machine Learning Systems},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  year      = {2015},
+  volume    = {28},
+  pages     = {2503--2511},
+  url       = {https://papers.nips.cc/paper/5656-hidden-technical-debt-in-machine-learning-systems}
+}
+
+@inproceedings{polyzotis2017mldata,
+  author    = {Polyzotis, Neoklis and Roy, Sudip and Whang, Steven Euijong and Zinkevich, Martin},
+  title     = {Data Management Challenges in Production Machine Learning},
+  booktitle = {Proceedings of the 2017 ACM International Conference on Management of Data (SIGMOD)},
+  year      = {2017},
+  pages     = {1723--1726},
+  doi       = {10.1145/3035918.3054782}
+}
+
+% =========================================================================
+% END OF REFERENCES
+% =========================================================================

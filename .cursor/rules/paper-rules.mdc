@@ -1,0 +1,85 @@
+---
+description: Writing rules and conventions for UniFlow ASE paper
+alwaysApply: true
+---
+
+# UniFlow ASE Paper Writing Rules
+
+## Forward Reference Policy
+
+**Rule:** Earlier sections MUST NOT reference later sections with concrete data.
+
+- ❌ BAD: "...as shown in Table 5 in Section 6..."
+- ❌ BAD: "...which achieves 0.81 precision (Table 7)..."
+- ✅ GOOD: "...will be discussed in the evaluation section..."
+- ✅ GOOD: "...demonstrates significant improvements..."
+
+**Rationale:** Paper flow should build progressively. Readers at Introduction/RQ should not see specific results.
+
+## Citation Rules
+
+### Command Usage
+
+Use LaTeX citation commands, NEVER hardcoded numbers:
+
+- **Narrative/inline:** `\cite{key}` or `Author et al.~\cite{key}`
+  - Example: "Hu et al.~\cite{hu2022lora} demonstrated..."
+  
+- **Parenthetical:** `\citep{key}` 
+  - Example: "...achieves comparable performance~\citep{hu2022lora}."
+
+- ❌ FORBIDDEN: `LoRA [15]`, `QLoRA [16]`, etc.
+
+### Citation Keys
+
+Every `\cite{key}` MUST have matching entry in `references.bib`.
+
+**Key format:** `lastname+year+keyword`
+- Example: `hu2022lora`, `dettmers2023qlora`, `cockburn2005hexagonal`
+
+## Template Compliance
+
+Always reference `sn-article-template/sn-article.tex` for Springer Nature format.
+
+### Critical Commands
+
+- ✅ `\botrule` (NOT `\bottomrule`)
+- ✅ `\State` (NOT `\STATE`)
+- ✅ `\bmhead{Acknowledgements}` (NOT `\begin{acknowledgements}`)
+
+### Order of Front Matter
+
+```latex
+\abstract{...}
+\keywords{...}
+\maketitle
+```
+
+## Language
+
+All paper content MUST be in English. Comments can be in Turkish.
+
+## Writing Style
+
+- **Active voice:** "We demonstrate" NOT "It is demonstrated"
+- **Lead with findings:** "4-bit achieves X" NOT "We tried 4-bit"
+- **Quantify everything:** Use numbers, percentages, comparisons
+- **Avoid "novel":** Show, don't tell
+
+## Section Length Targets
+
+- Introduction: ~1 page (~600 words)
+- Research Questions: ~0.5 page (~300 words, paragraph form, no sub-questions)
+- Related Work: ~3 pages (~1800 words)
+
+## Reference Organization
+
+Groups in `references.bib`:
+- Regularization techniques
+- Foundational LLM models
+- PEFT methods
+- RAG systems
+- Information retrieval
+- Software architecture
+- Evaluation datasets/metrics
+- Quantization methods

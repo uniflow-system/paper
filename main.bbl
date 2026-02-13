@@ -1,0 +1,268 @@
+\begin{thebibliography}{44}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{{#1}}
+\providecommand{\urlprefix}{URL }
+\providecommand{\doi}[1]{\url{https://doi.org/#1}}
+\providecommand{\eprint}[2][]{\url{#2}}
+ \bibcommenthead
+
+\bibitem[{Bajaj et~al.(2016)Bajaj, Campos, Craswell, Deng, Gao, Liu, Majumder,
+  McNamara, Mitra, Nguyen et~al.}]{bajaj2016msmarco}
+Bajaj P, Campos D, Craswell N, et~al (2016) {MS MARCO}: A human generated
+  machine reading comprehension dataset. In: Proceedings of the Workshop on
+  Cognitive Computation: Integrating Neural and Symbolic Approaches (NeurIPS),
+  \urlprefix\url{https://arxiv.org/abs/1611.09268}
+
+\bibitem[{Borgeaud et~al.(2022)Borgeaud, Mensch, Hoffmann, Cai, Rutherford,
+  Millican, van~den Driessche, Lespiau, Damoc, Clark
+  et~al.}]{borgeaud2022retro}
+Borgeaud S, Mensch A, Hoffmann J, et~al (2022) Improving language models by
+  retrieving from trillions of tokens. Proceedings of the 39th International
+  Conference on Machine Learning (ICML) pp 2206--2240.
+  \urlprefix\url{https://arxiv.org/abs/2112.04426}
+
+\bibitem[{Brown et~al.(2020)Brown, Mann, Ryder, Subbiah, Kaplan, Dhariwal,
+  Neelakantan, Shyam, Sastry, Askell et~al.}]{brown2020gpt3}
+Brown TB, Mann B, Ryder N, et~al (2020) Language models are few-shot learners.
+  Advances in Neural Information Processing Systems (NeurIPS) 33:1877--1901.
+  \urlprefix\url{https://arxiv.org/abs/2005.14165}
+
+\bibitem[{Chase(2023)}]{langchain2023}
+Chase H (2023) {LangChain}.
+  \urlprefix\url{https://github.com/langchain-ai/langchain}, accessed: 2024-12
+
+\bibitem[{Chen et~al.(2020)Chen, Chow, Davidson, DCunha, Ghodsi, Hong,
+  Konwinski, Mewald, Murching, Nykodym et~al.}]{chen2020mlflow}
+Chen A, Chow A, Davidson A, et~al (2020) Developments in {MLflow}: A system to
+  accelerate the machine learning lifecycle. In: Proceedings of the Fourth
+  International Workshop on Data Management for End-to-End Machine Learning
+  (DEEM), pp 1--4, \doi{10.1145/3399579.3399867}
+
+\bibitem[{Chen et~al.(2021)Chen, Liu, Chen, and Zhang}]{chen2021dialogsum}
+Chen Y, Liu Y, Chen L, et~al (2021) {DialogSum}: A real-life scenario dialogue
+  summarization dataset. In: Proceedings of the 59th Annual Meeting of the
+  Association for Computational Linguistics (ACL), pp 5062--5074,
+  \doi{10.18653/v1/2021.acl-long.391}
+
+\bibitem[{Cockburn(2005)}]{cockburn2005hexagonal}
+Cockburn A (2005) Hexagonal Architecture. Alistair Cockburn,
+  \urlprefix\url{https://alistair.cockburn.us/hexagonal-architecture/}
+
+\bibitem[{Cormack et~al.(2009)Cormack, Clarke, and Buettcher}]{cormack2009rrf}
+Cormack GV, Clarke CLA, Buettcher S (2009) Reciprocal rank fusion outperforms
+  condorcet and individual rank learning methods. Proceedings of the 32nd
+  International ACM SIGIR Conference pp 758--759. \doi{10.1145/1571941.1572114}
+
+\bibitem[{{deepset AI}(2023)}]{haystack2023}
+{deepset AI} (2023) {Haystack}: End-to-end {NLP} framework.
+  \urlprefix\url{https://haystack.deepset.ai/}, accessed: 2024-12
+
+\bibitem[{Dettmers et~al.(2023)Dettmers, Pagnoni, Holtzman, and
+  Zettlemoyer}]{dettmers2023qlora}
+Dettmers T, Pagnoni A, Holtzman A, et~al (2023) {QLoRA}: Efficient finetuning
+  of quantized {LLMs}. Advances in Neural Information Processing Systems
+  (NeurIPS) 36. \urlprefix\url{https://arxiv.org/abs/2305.14314}
+
+\bibitem[{Evans(2003)}]{evans2003ddd}
+Evans E (2003) Domain-Driven Design: Tackling Complexity in the Heart of
+  Software. Addison-Wesley Professional
+
+\bibitem[{Gholami et~al.(2022)Gholami, Kim, Dong, Yao, Mahoney, and
+  Keutzer}]{gholami2022survey}
+Gholami A, Kim S, Dong Z, et~al (2022) A survey of quantization methods for
+  efficient neural network inference. International Journal of Computer Vision
+  130(3):535--551. \doi{10.1007/s11263-021-01544-9}
+
+\bibitem[{Girdhar et~al.(2023)Girdhar, El-Nouby, Liu, Singh, Alwala, Joulin,
+  and Misra}]{girdhar2023imagebind}
+Girdhar R, El-Nouby A, Liu Z, et~al (2023) {ImageBind}: One embedding space to
+  bind them all. In: Proceedings of the IEEE/CVF Conference on Computer Vision
+  and Pattern Recognition (CVPR), pp 15180--15190,
+  \urlprefix\url{https://arxiv.org/abs/2305.05665}
+
+\bibitem[{Gliwa et~al.(2019)Gliwa, Mochol, Biesek, and Wawer}]{gliwa2019samsum}
+Gliwa B, Mochol I, Biesek M, et~al (2019) {SAMSum} corpus: A human-annotated
+  dialogue dataset for abstractive summarization. In: Proceedings of the 2nd
+  Workshop on New Frontiers in Summarization, pp 70--79,
+  \doi{10.18653/v1/D19-5409}
+
+\bibitem[{Gupta et~al.(2015)Gupta, Agrawal, Gopalakrishnan, and
+  Narayanan}]{gupta2015deep}
+Gupta S, Agrawal A, Gopalakrishnan K, et~al (2015) Deep learning with limited
+  numerical precision. Proceedings of the 32nd International Conference on
+  Machine Learning (ICML) pp 1737--1746.
+  \urlprefix\url{http://proceedings.mlr.press/v37/gupta15.html}
+
+\bibitem[{Guu et~al.(2020)Guu, Lee, Tung, Pasupat, and Chang}]{guu2020realm}
+Guu K, Lee K, Tung Z, et~al (2020) {REALM}: Retrieval-augmented language model
+  pre-training. Proceedings of the 37th International Conference on Machine
+  Learning (ICML) pp 3929--3938.
+  \urlprefix\url{https://arxiv.org/abs/2002.08909}
+
+\bibitem[{Henderson et~al.(2018)Henderson, Islam, Bachman, Pineau, Precup, and
+  Meger}]{henderson2018deep}
+Henderson P, Islam R, Bachman P, et~al (2018) Deep reinforcement learning that
+  matters. Proceedings of the AAAI Conference on Artificial Intelligence 32(1).
+  \doi{10.1609/aaai.v32i1.11694}
+
+\bibitem[{Houlsby et~al.(2019)Houlsby, Giurgiu, Jastrzebski, Morrone,
+  de~Laroussilhe, Gesmundo, Attariyan, and Gelly}]{houlsby2019adapters}
+Houlsby N, Giurgiu A, Jastrzebski S, et~al (2019) Parameter-efficient transfer
+  learning for {NLP}. In: Proceedings of the 36th International Conference on
+  Machine Learning (ICML), pp 2790--2799,
+  \urlprefix\url{http://proceedings.mlr.press/v97/houlsby19a.html}
+
+\bibitem[{Hu et~al.(2022)Hu, Shen, Wallis, Allen-Zhu, Li, Wang, Wang, and
+  Chen}]{hu2022lora}
+Hu EJ, Shen Y, Wallis P, et~al (2022) {LoRA}: Low-rank adaptation of large
+  language models. In: International Conference on Learning Representations
+  (ICLR), \urlprefix\url{https://openreview.net/forum?id=nZeVKeeFYf9}
+
+\bibitem[{Izacard et~al.(2023)Izacard, Lewis, Lomeli, Hosseini, Petroni,
+  Schick, Dwivedi-Yu, Joulin, Riedel, and Grave}]{izacard2023atlas}
+Izacard G, Lewis P, Lomeli M, et~al (2023) Atlas: Few-shot learning with
+  retrieval augmented language models. Journal of Machine Learning Research
+  24(251):1--43. \urlprefix\url{https://arxiv.org/abs/2208.03299}
+
+\bibitem[{Jacob et~al.(2018)Jacob, Kligys, Chen, Zhu, Tang, Howard, Adam, and
+  Kalenichenko}]{jacob2018quantization}
+Jacob B, Kligys S, Chen B, et~al (2018) Quantization and training of neural
+  networks for efficient integer-arithmetic-only inference. In: Proceedings of
+  the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), pp
+  2704--2713, \doi{10.1109/CVPR.2018.00286}
+
+\bibitem[{Karpukhin et~al.(2020)Karpukhin, O{\u{g}}uz, Min, Lewis, Wu, Edunov,
+  Chen, and Yih}]{karpukhin2020dpr}
+Karpukhin V, O{\u{g}}uz B, Min S, et~al (2020) Dense passage retrieval for
+  open-domain question answering. In: Proceedings of the 2020 Conference on
+  Empirical Methods in Natural Language Processing (EMNLP), pp 6769--6781,
+  \doi{10.18653/v1/2020.emnlp-main.550}
+
+\bibitem[{Khattab and Zaharia(2020)}]{khattab2020colbert}
+Khattab O, Zaharia M (2020) {ColBERT}: Efficient and effective passage search
+  via contextualized late interaction over {BERT}. In: Proceedings of the 43rd
+  International ACM SIGIR Conference on Research and Development in Information
+  Retrieval, pp 39--48, \doi{10.1145/3397271.3401075}
+
+\bibitem[{Kwiatkowski et~al.(2019)Kwiatkowski, Palomaki, Redfield, Collins,
+  Parikh, Alberti, Epstein, Polosukhin, Devlin, Lee
+  et~al.}]{kwiatkowski2019natural}
+Kwiatkowski T, Palomaki J, Redfield O, et~al (2019) Natural questions: A
+  benchmark for question answering research. In: Transactions of the
+  Association for Computational Linguistics, pp 453--466,
+  \doi{10.1162/tacl_a_00276}
+
+\bibitem[{Lewis et~al.(2020)Lewis, Perez, Piktus, Petroni, Karpukhin, Goyal,
+  K{\"u}ttler, Lewis, Yih, Rockt{\"a}schel, Riedel, and Kiela}]{lewis2020rag}
+Lewis P, Perez E, Piktus A, et~al (2020) Retrieval-augmented generation for
+  knowledge-intensive {NLP} tasks. In: Advances in Neural Information
+  Processing Systems (NeurIPS), pp 9459--9474,
+  \urlprefix\url{https://arxiv.org/abs/2005.11401}
+
+\bibitem[{Li and Liang(2021)}]{li2021prefix}
+Li XL, Liang P (2021) Prefix-tuning: Optimizing continuous prompts for
+  generation. In: Proceedings of the 59th Annual Meeting of the Association for
+  Computational Linguistics (ACL), pp 4582--4597,
+  \doi{10.18653/v1/2021.acl-long.353}
+
+\bibitem[{{LlamaIndex Team}(2023)}]{llamaindex2023}
+{LlamaIndex Team} (2023) {LlamaIndex}: Data framework for {LLM} applications.
+  \urlprefix\url{https://www.llamaindex.ai/}, accessed: 2024-12
+
+\bibitem[{Nogueira et~al.(2020)Nogueira, Jiang, Pradeep, and
+  Lin}]{nogueira2020monoT5}
+Nogueira R, Jiang Z, Pradeep R, et~al (2020) Document ranking with a pretrained
+  sequence-to-sequence model. Findings of the Association for Computational
+  Linguistics: EMNLP 2020 pp 708--718. \doi{10.18653/v1/2020.findings-emnlp.63}
+
+\bibitem[{Paleyes et~al.(2022)Paleyes, Urma, and Lawrence}]{paleyes2022mle}
+Paleyes A, Urma RG, Lawrence ND (2022) Challenges in deploying machine
+  learning: A survey of case studies. ACM Computing Surveys 55(6):1--29.
+  \doi{10.1145/3533378}
+
+\bibitem[{Polyzotis et~al.(2017)Polyzotis, Roy, Whang, and
+  Zinkevich}]{polyzotis2017mldata}
+Polyzotis N, Roy S, Whang SE, et~al (2017) Data management challenges in
+  production machine learning. In: Proceedings of the 2017 ACM International
+  Conference on Management of Data (SIGMOD), pp 1723--1726,
+  \doi{10.1145/3035918.3054782}
+
+\bibitem[{{Qdrant Team}(2021)}]{qdrant2021}
+{Qdrant Team} (2021) {Qdrant}: Vector database for the next generation of {AI}.
+  \urlprefix\url{https://qdrant.tech/}, accessed: 2024-12
+
+\bibitem[{{Qwen Team}(2024)}]{qwen2024technical}
+{Qwen Team} (2024) Qwen2.5 technical report. arXiv preprint arXiv:241215115
+  \urlprefix\url{https://arxiv.org/abs/2412.15115}
+
+\bibitem[{Radford et~al.(2021)Radford, Kim, Hallacy, Ramesh, Goh, Agarwal,
+  Sastry, Askell, Mishkin, Clark et~al.}]{radford2021clip}
+Radford A, Kim JW, Hallacy C, et~al (2021) Learning transferable visual models
+  from natural language supervision. In: Proceedings of the 38th International
+  Conference on Machine Learning (ICML), pp 8748--8763,
+  \urlprefix\url{https://arxiv.org/abs/2103.00020}
+
+\bibitem[{Reimers and Gurevych(2019)}]{reimers2019sbert}
+Reimers N, Gurevych I (2019) Sentence-{BERT}: Sentence embeddings using siamese
+  {BERT}-networks. In: Proceedings of the 2019 Conference on Empirical Methods
+  in Natural Language Processing (EMNLP), pp 3982--3992,
+  \doi{10.18653/v1/D19-1410}
+
+\bibitem[{Richardson(2018)}]{richardson2018microservices}
+Richardson C (2018) Microservices Patterns: With Examples in Java. Manning
+  Publications
+
+\bibitem[{Robertson and Zaragoza(2009)}]{robertson2009bm25}
+Robertson S, Zaragoza H (2009) The probabilistic relevance framework: {BM25}
+  and beyond. In: Foundations and Trends in Information Retrieval, pp 333--389,
+  \doi{10.1561/1500000019}
+
+\bibitem[{Salton and Buckley(1988)}]{salton1988tfidf}
+Salton G, Buckley C (1988) Term-weighting approaches in automatic text
+  retrieval. Information Processing \& Management 24(5):513--523.
+  \doi{10.1016/0306-4573(88)90021-0}
+
+\bibitem[{Sculley et~al.(2015)Sculley, Holt, Golovin, Davydov, Phillips, Ebner,
+  Chaudhary, Young, Crespo, and Dennison}]{sculley2015debt}
+Sculley D, Holt G, Golovin D, et~al (2015) Hidden technical debt in machine
+  learning systems. In: Advances in Neural Information Processing Systems
+  (NeurIPS), pp 2503--2511,
+  \urlprefix\url{https://papers.nips.cc/paper/5656-hidden-technical-debt-in-machine-learning-systems}
+
+\bibitem[{Shaw(2003)}]{shaw2003writing}
+Shaw M (2003) Writing good software engineering research papers. In:
+  Proceedings of the 25th International Conference on Software Engineering
+  (ICSE). IEEE Computer Society, pp 726--736, \doi{10.1109/ICSE.2003.1201262}
+
+\bibitem[{Thorne et~al.(2018)Thorne, Vlachos, Christodoulopoulos, and
+  Mittal}]{thorne2018fever}
+Thorne J, Vlachos A, Christodoulopoulos C, et~al (2018) {FEVER}: a large-scale
+  dataset for fact extraction and {VERification}. In: Proceedings of the 2018
+  Conference of the North American Chapter of the Association for Computational
+  Linguistics (NAACL), pp 809--819, \doi{10.18653/v1/N18-1074}
+
+\bibitem[{Touvron et~al.(2023)Touvron, Lavril, Izacard, Martinet, Lachaux,
+  Lacroix, Rozi{\`e}re, Goyal, Hambro, Azhar, Rodriguez, Joulin, Grave, and
+  Lample}]{touvron2023llama}
+Touvron H, Lavril T, Izacard G, et~al (2023) {LLaMA}: Open and efficient
+  foundation language models. arXiv preprint arXiv:230213971
+  \urlprefix\url{https://arxiv.org/abs/2302.13971}
+
+\bibitem[{Wang et~al.(2023)Wang, Ma, Dong, Huang, Wang, Ma, Yang, Wang, Wu, and
+  Wei}]{wang2023bitnet}
+Wang H, Ma S, Dong L, et~al (2023) {BitNet}: Scaling 1-bit transformers for
+  large language models. arXiv preprint arXiv:231011453
+  \urlprefix\url{https://arxiv.org/abs/2310.11453}
+
+\bibitem[{Wohlin et~al.(2012)Wohlin, Runeson, H{\"o}st, Ohlsson, Regnell, and
+  Wessl{\'e}n}]{wohlin2012experimentation}
+Wohlin C, Runeson P, H{\"o}st M, et~al (2012) Experimentation in Software
+  Engineering. Springer Science \& Business Media,
+  \doi{10.1007/978-3-642-29044-2}
+
+\bibitem[{Xiao et~al.(2024)Xiao, Liu, Zhang, and Muennighoff}]{xiao2024bge}
+Xiao S, Liu Z, Zhang P, et~al (2024) {C-Pack}: Packaged resources to advance
+  general chinese embedding. arXiv preprint arXiv:230907597
+  \urlprefix\url{https://arxiv.org/abs/2309.07597}
+
+\end{thebibliography}
