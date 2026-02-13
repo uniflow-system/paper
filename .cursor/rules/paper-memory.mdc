@@ -42,12 +42,12 @@ alwaysApply: true
 ## Current Status (as of session)
 
 ### Completed Sections
-- ✅ Section 1: Introduction (7 paragraphs, needs shortening to ~5)
-- ✅ Section 2: Research Questions (detailed with sub-questions, needs paragraph format)
-- ✅ Section 3: Related Work (4 subsections: PEFT, RAG, Retrieval, Architecture)
+- ✅ Section 1: Introduction (64 lines, ~600 words)
+- ✅ Section 2: Research Questions (69 lines, ~300 words, paragraph format)
+- ✅ Section 3: Related Work (107 lines, ~1800 words)
+- ✅ Section 4: Research Method (140 lines target, shortened from 222 lines)
 
 ### Skeleton/TODO Sections
-- ⏳ Section 4: Research Method (architecture, fine-tuning, retrieval, evaluation design)
 - ⏳ Section 5: Results (per RQ, with tables/figures placeholders)
 - ⏳ Section 6: Threats to Validity (Wohlin framework)
 - ⏳ Section 7: Replication Package (code, data, models)

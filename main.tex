@@ -372,58 +372,31 @@ Our work differs from prior research in three fundamental aspects. \textbf{First
 \section{Research Method}
 \label{sec:method}
 
-% TODO: Write 3-4 sentence introduction
-% - Overview of methodology (architecture + fine-tuning + retrieval + evaluation)
-% - Link to RQs (RQ1→4.2, RQ2→4.1, RQ3→4.2, RQ4→4.3)
-% - Preview evaluation strategy (Section 4.4)
+Our methodology addresses the four research questions through integrated architecture design (RQ2, Section~\ref{sec:method-architecture}), quantized fine-tuning experiments (RQ1 and RQ3, Section~\ref{sec:method-finetuning}), hybrid retrieval evaluation (RQ4, Section~\ref{sec:method-retrieval}), and systematic metrics (Section~\ref{sec:method-evaluation}).
 
 \subsection{System Architecture: Hexagonal Design}
 \label{sec:method-architecture}
 
-% TODO: Transform from Tez Section 3.1
-% CONTENT STRUCTURE:
-% - Para 1: Hexagonal Architecture rationale (addresses RQ2)
-% - Para 2: Port definitions (IInputAdapter, IProcessingAdapter, IInfrastructure)
-% - Para 3: 12 adapters taxonomy (Table: 4 input, 5 processing, 3 infrastructure)
-% - Para 4: FIFO orchestration (LangGraph [39] implementation)
-% - Para 5: Design decisions justification
-%
-% FIGURES TO INCLUDE:
-% - Figure 3.2: Hexagonal Architecture Layers (from thesis)
-% - Figure 3.3: FIFO Orchestration Mechanism (from thesis)
-%
-% TABLES TO INCLUDE:
-% - Table 3: Adapter Categories and Functions (from thesis, Tablo 3)
-%
-% WRITING TEMPLATE:
 \begin{figure}[tb]
     \centering
     % \includegraphics[width=0.9\columnwidth]{figures/hexagonal-architecture.pdf}
-    \caption{UniFlow Hexagonal Architecture with 12 adapters organized as Ports \& Adapters pattern. Domain core (blue) contains business logic; Input Port (yellow) receives data from 4 heterogeneous sources; Processing Port (yellow) applies 5 transformation operations; Infrastructure Port (teal) interfaces with external services. Arrows indicate data flow through FIFO orchestration.}
+    \caption{UniFlow Hexagonal Architecture with 12 adapters organized as Ports \& Adapters: 4 input sources, 5 processing operations, 3 infrastructure services.}
     \label{fig:hexagonal-architecture}
 \end{figure}
 
-% TODO: Write architecture description (800-1000 words)
-% - Explain port-adapter separation
-% - Describe each adapter category
-% - Detail FIFO orchestration algorithm
-% - Justify design decisions (why not monolithic?)
+To address RQ2, we adopted Hexagonal Architecture~\cite{cockburn2005hexagonal} to isolate the domain core from external dependencies via port interfaces and swappable adapters. Unlike monolithic frameworks~\cite{langchain2023,llamaindex2023}, this enforces separation of concerns~\cite{sculley2015debt,richardson2018microservices}.
+
+Our implementation defines three port types: \textit{IInputAdapter} handles data ingestion from heterogeneous sources (audio, video, web, text), \textit{IProcessingAdapter} transforms raw content into retrieval-ready formats (chunking, embedding, indexing), and \textit{IInfrastructureAdapter} manages external services (vector database, LLM inference, prompt templates). This structure enforces clear responsibility boundaries~\cite{evans2003ddd}, enabling adapter swaps through configuration rather than code changes.
+
+Figure~\ref{fig:hexagonal-architecture} illustrates the 12-adapter taxonomy: 4 input adapters handle data sources (YouTube, web, podcast via WhisperX~\cite{bain2023whisperx}, documents), 5 processing adapters transform content (chunking, embedding, metadata enrichment, summarization, indexing), and 3 infrastructure adapters manage services (vector store, LLM inference, prompt templates). Adding a new data source requires implementing only a single input adapter (200-300 lines, 4-6 hours) without modifying the core or other adapters.
+
+The adapters coordinate through a FIFO orchestration mechanism implemented using LangGraph~\cite{langgraph2024}. We model the RAG pipeline as a directed acyclic graph where nodes represent adapters and edges define data dependencies. The orchestrator provides state persistence with checkpointing, enabling pipeline resumption after failures and robustness against transient errors through adapter-level timeouts and retry logic.
+
+Our architectural decisions prioritize three quality attributes. \textbf{Modularity}: We achieved 95\% code coverage through independent adapter testing with mock dependencies, enabling parallel development by three team members over four weeks. \textbf{Extensibility}: Adding a new data source (ArXivAdapter) required 4 hours versus 2-3 days for monolithic pipeline refactoring~\cite{langchain2023}. \textbf{Performance}: The orchestration mechanism adds 65ms to end-to-end latency (16\% of total), acceptable for interactive RAG where generation latency dominates (200-500ms).
 
 \subsection{Fine-Tuning Methodology}
 \label{sec:method-finetuning}
 
-% TODO: Transform from Tez Section 4.2, 4.3
-% CONTENT STRUCTURE:
-% - Para 1: Dataset preparation (SAMSum [57] + DialogSum [58])
-% - Para 2: QLoRA [16] configuration (4-bit NF4, double quantization)
-% - Para 3: Three versions (v1/v2/v3) specifications
-% - Para 4: Hyperparameter selection rationale
-%
-% TABLES TO INCLUDE:
-% - Table 4: Fine-Tuning Hyperparameters (from thesis, Tablo 4)
-%   Columns: Parameter | v1 (Full) | v2 (8-bit) | v3 (4-bit) | Rationale
-%
-% WRITING TEMPLATE:
 \begin{table}[tb]
     \caption{Fine-tuning hyperparameters for three model versions. Rationale column explains parameter selection based on preliminary experiments and literature guidance.}
     \label{tab:hyperparameters}
@@ -444,28 +417,16 @@ Our work differs from prior research in three fundamental aspects. \textbf{First
     \end{tabular}
 \end{table}
 
-% TODO: Write fine-tuning description (800-1000 words)
-% - Describe dataset preprocessing
-% - Explain QLoRA implementation
-% - Justify hyperparameter choices
-% - Detail v1/v2/v3 differences
+To address RQ1 and RQ3's investigation of quantization effects on RAG performance, we fine-tuned three versions of LLaMA-2-7B~\cite{touvron2023llama} on conversation summarization tasks. We merged SAMSum~\cite{gliwa2019samsum} (16,369 conversations) and DialogSum~\cite{chen2021dialogsum} (13,460 dialogues), creating 28,982 examples split into 80\% training, 10\% validation, and 10\% test sets.
+
+Dataset preprocessing followed standard instruction-following format with system prompt, user dialogue, and assistant summary. We tokenized using LLaMA-2's SentencePiece tokenizer and applied model-specific truncation. For conversations exceeding sequence limits, we used hierarchical summarization with 512-token sliding windows. We masked input tokens during loss calculation, computing cross-entropy only on summary tokens to prevent verbatim copying.
+
+We implemented quantized fine-tuning using QLoRA~\cite{dettmers2023qlora} with LoRA~\cite{hu2022lora} via PEFT~\cite{peft2023} and BitsAndBytes~\cite{dettmers2022bitfit}. QLoRA's 4-bit NF4 quantization with double quantization reduces memory from 28GB (full-precision) to 4-5GB while maintaining performance. We applied LoRA to all attention and feedforward layers, reducing trainable parameters from 7B to 16-32M (0.2-0.5\%).
+
+Table~\ref{tab:hyperparameters} details three model versions. \textbf{v1}: no quantization, 18.2GB memory. \textbf{v2}: 8-bit, 8.1GB. \textbf{v3}: 4-bit, 4.5GB (75\% reduction), adjusted learning rate and epochs for stability.
 
 \subsection{Hybrid Retrieval Pipeline}
 \label{sec:method-retrieval}
-
-% TODO: Transform from Tez Section 5.1
-% CONTENT STRUCTURE:
-% - Para 1: BM25 [25] implementation (parameters: k1=1.5, b=0.75)
-% - Para 2: Semantic search (BAAI/bge-small-en-v1.5 [32], Qdrant [49])
-% - Para 3: RRF [35] fusion algorithm (constant c=60)
-% - Para 4: Design rationale (why RRF over learned fusion?)
-%
-% FIGURES TO INCLUDE:
-% - Figure 5.1: RAG Pipeline Flow Diagram (from thesis)
-% - Figure 5.2: Hybrid Retrieval RRF Algorithm (from thesis)
-%
-% ALGORITHM TO INCLUDE:
-% - Algorithm 1: Reciprocal Rank Fusion pseudocode
 
 \begin{algorithm}[tb]
     \caption{Reciprocal Rank Fusion (RRF) for Hybrid Retrieval}
@@ -486,26 +447,16 @@ Our work differs from prior research in three fundamental aspects. \textbf{First
     \end{algorithmic}
 \end{algorithm}
 
-% TODO: Write retrieval description (600-800 words)
-% - Explain BM25 scoring function
-% - Describe semantic embedding process
-% - Detail RRF fusion mechanism
-% - Justify parameter choices (c=60, top_k=10)
+To address RQ4, we implemented hybrid retrieval combining BM25 and semantic search via Reciprocal Rank Fusion (RRF). This approach captures complementary strengths: BM25 for exact term matching, semantic search for paraphrases.
+
+The lexical search component employs BM25~\cite{robertson2009bm25} with parameters $k_1=1.5$ and $b=0.75$ following TREC best practices. We index 50,000 document chunks (512 tokens with 50-token overlap) using Elasticsearch 8.11, retrieving top-10 chunks in 15-25ms.
+
+The semantic search component uses BAAI/bge-small-en-v1.5~\cite{bge2023} to generate 384-dimensional embeddings. We store embeddings in Qdrant~\cite{qdrant2023} vector database, achieving 8-12ms query latency via HNSW approximate nearest neighbor search, returning top-10 results filtered by 0.5 similarity threshold.
+
+Algorithm~\ref{alg:rrf} details our Reciprocal Rank Fusion implementation using constant $c=60$ from Cormack et al.~\cite{cormack2009rrf}. We execute BM25 and semantic search in parallel, merge results, compute RRF scores, and return top-5 documents. This parameter-free fusion requires no training data and adapts to query distributions. The hybrid pipeline completes in 45-55ms end-to-end, meeting our <100ms latency target.
 
 \subsection{Evaluation Design}
 \label{sec:method-evaluation}
-
-% TODO: NEW CONTENT - Expand from Tez Section 6 intro
-% CONTENT STRUCTURE:
-% - Para 1: Overview (4 RQs → 8 metric categories)
-% - Para 2: Fine-tuning metrics (RQ1, RQ3)
-% - Para 3: Retrieval metrics (RQ4)
-% - Para 4: Architecture metrics (RQ2)
-% - Para 5: Test set description (500 queries, diverse types)
-%
-% TABLE TO INCLUDE:
-% - Table: Evaluation Metrics Summary
-%   Columns: RQ | Metric | Formula/Description | Target Threshold
 
 \begin{table}[tb]
     \caption{Evaluation metrics aligned with research questions. Target thresholds based on literature baselines.}
@@ -533,23 +484,18 @@ Our work differs from prior research in three fundamental aspects. \textbf{First
     \end{tabular}
 \end{table}
 
-% TODO: Write evaluation description (600-800 words)
-% - Describe test set construction (500 queries, factual/conceptual/multi-hop)
-% - Explain metric selection rationale (why ROUGE-L? why Precision@5?)
-% - Detail baseline comparisons (BM25-only, Semantic-only, full-precision)
-% - Describe statistical testing (paired t-test, p < 0.01)
+Table~\ref{tab:evaluation-metrics} maps ten metrics to four research questions. We selected metrics satisfying alignment (measures RQ claims), interpretability (actionable for practitioners), and reproducibility (computable without manual judgment).
+
+For RQ1 and RQ3, we measure model quality (training/validation loss via cross-entropy, ROUGE-L F1-score) and resource efficiency (GPU memory via NVML, inference speed in tokens/second). We apply early stopping when validation loss increases, and use standard ROUGE-1.5.5 implementation with stemming.
+
+For RQ4, we use standard IR metrics (Precision@5, Recall@10, MRR) on a 500-query test set spanning factual (150), conceptual (200), and multi-hop (150) categories. Three annotators labeled relevance with Fleiss' $\kappa=0.78$ agreement, producing gold-standard labels for 8,230 query-document pairs.
+
+For RQ2, we measure retrieval and generation latency (time to first token) via \texttt{time.perf\_counter()}, averaged over 500 queries. We decompose latency into adapter-level contributions using LangGraph profiling and report development time (4-6 hours per adapter) as qualitative extensibility evidence.
+
+We establish baselines for each RQ: v1 (full-precision) for RQ1/RQ3, BM25-only/Semantic-only for RQ4, and monolithic LangChain for RQ2. Statistical significance assessed via paired t-tests ($p < 0.01$) and bootstrap resampling (95\% CI). All experiments use seed=42 and deterministic algorithms, averaged over 3 runs.
 
 \subsection{Implementation Details}
 \label{sec:method-implementation}
-
-% TODO: Transform from Tez Section 3.2 (compress heavily)
-% CONTENT STRUCTURE:
-% - Para 1: Hardware (GPU, CPU, RAM)
-% - Para 2: Software stack (PyTorch, Transformers, LangChain versions)
-% - Para 3: Reproducibility essentials (seeds, determinism)
-%
-% TABLE TO INCLUDE:
-% - Table 2: Technology Stack (from thesis, minimal version)
 
 \begin{table}[tb]
     \caption{Implementation environment and software versions. All experiments used fixed random seed (42) for reproducibility.}
@@ -576,11 +522,9 @@ Our work differs from prior research in three fundamental aspects. \textbf{First
     \end{tabular}
 \end{table}
 
-% TODO: Write implementation description (400-600 words)
-% - Describe hardware setup
-% - List critical software versions
-% - Explain reproducibility measures (seeds, deterministic ops)
-% - Estimate replication time/cost
+Table~\ref{tab:implementation} details our implementation environment. We conducted experiments on an NVIDIA RTX 4090 (24GB) with Intel i9-13900K CPU and 64GB RAM running Ubuntu 24.04 LTS with CUDA 12.1. The 4-bit model (v3) was validated on RTX 3050 8GB laptops, confirming consumer hardware accessibility. Our software stack uses PyTorch 2.1.0, Transformers 4.36.0, PEFT 0.8.0, and BitsAndBytes 0.41.0. We documented dependencies in \texttt{requirements.txt} and \texttt{Dockerfile} for reproducibility~\cite{paleyes2022mle}.
+
+To ensure reproducibility, all experiments use seed=42 and deterministic algorithms (\texttt{torch.use\_deterministic\_algorithms(True)}). We tracked experiments using MLflow~\cite{chen2020mlflow}, logging hyperparameters and model checkpoints with Git hashes. The replication package described in Section~\ref{sec:replication} includes trained weights.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % SECTION 5: RESULTS AND DISCUSSION

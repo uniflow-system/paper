@@ -66,11 +66,26 @@ All paper content MUST be in English. Comments can be in Turkish.
 - **Quantify everything:** Use numbers, percentages, comparisons
 - **Avoid "novel":** Show, don't tell
 
-## Section Length Targets
+## Paper Length Constraint
 
-- Introduction: ~1 page (~600 words)
-- Research Questions: ~0.5 page (~300 words, paragraph form, no sub-questions)
-- Related Work: ~3 pages (~1800 words)
+**Total Target:** 20-25 pages (Springer Nature SN-JNL double-column format)
+
+**Section Length Guidelines:**
+- Introduction: ~1 page (600-700 words, 60-70 lines)
+- Research Questions: ~0.5 page (300 words, 50-70 lines)
+- Related Work: ~2-3 pages (1200-1800 words, 100-120 lines)
+- Research Method: ~2.5-3 pages (1500-1800 words, 120-140 lines)
+- Results: ~4-5 pages (2400-3000 words, 200-250 lines)
+- Threats to Validity: ~1.5 pages (900 words, 80-100 lines)
+- Replication Package: ~1 page (600 words, 60-80 lines)
+- Conclusion: ~1 page (600 words, 60-80 lines)
+
+**Writing Efficiency Rules:**
+- Prefer tables over prose for specifications (hardware, hyperparameters, metrics)
+- Avoid repeating Related Work content (e.g., "QLoRA works by..." → just cite)
+- Cite formulas instead of deriving (e.g., "BM25 scoring~\cite{X}" not full formula)
+- Summarize implementation details (e.g., "12 adapters" not enumerate all)
+- Keep justifications concise (1-2 sentences max)
 
 ## Reference Organization
 
@@ -83,3 +98,31 @@ Groups in `references.bib`:
 - Software architecture
 - Evaluation datasets/metrics
 - Quantization methods
+
+## Git Commit Conventions
+
+**Format:** `<type>(<scope>): <subject>`
+
+**Types:**
+- `feat`: New feature or significant addition
+- `refactor`: Code restructuring without behavior change
+- `fix`: Bug fix
+- `docs`: Documentation changes
+- `style`: Formatting, whitespace (no code change)
+- `chore`: Maintenance, dependencies, config
+- `perf`: Performance improvement
+
+**Rules:**
+- Use English for all commit messages
+- Subject line: imperative mood, lowercase, no period
+- Keep subject under 72 characters
+- Scope optional: section name, file, or component
+- Body: explain what and why, not how (if needed)
+- **DO NOT** include "Co-author: cursor" or AI attribution in commits
+
+**Examples:**
+- `feat(section4): add Research Method content with 5 subsections`
+- `refactor(section4): shorten content from 222 to 212 lines`
+- `docs(rules): add paper length constraints and commit conventions`
+- `fix(references): add missing citations for LangGraph and Qdrant`
+- `style(intro): reformat paragraphs for better readability`
