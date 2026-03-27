@@ -274,7 +274,9 @@ The challenge of adapting large language models to specific domains has driven e
 
 Adapter methods~\citep{houlsby2019adapters} introduced a more efficient alternative by inserting small trainable modules between transformer layers while freezing pre-trained weights. Houlsby et al.~\cite{houlsby2019adapters} demonstrated that training only 3.6\% additional parameters achieves 97-99\% of full fine-tuning performance on GLUE benchmarks. Prefix-tuning~\citep{li2021prefix} further reduced trainable parameters by learning continuous task-specific vectors prepended to input sequences, achieving comparable results with only 0.1\% trainable parameters on table-to-text generation.
 
-Low-Rank Adaptation (LoRA)~\citep{hu2022lora} represented a breakthrough by decomposing weight updates into low-rank matrices, eliminating the need for additional inference latency that adapter methods incur. Hu et al. demonstrated that rank-16 decomposition (0.1\% of parameters for RoBERTa-Large) matches full fine-tuning on natural language understanding while enabling straightforward inference by merging learned weights. QLoRA~\citep{dettmers2023qlora} extended this approach with 4-bit NormalFloat quantization and double quantization of scaling factors, enabling 65B model fine-tuning on consumer GPUs. Dettmers et al. reported that 4-bit quantized fine-tuning matches full-precision performance on MMLU (62.8\% vs 63.1\%) and instruction-following benchmarks.
+Low-Rank Adaptation (LoRA)~\citep{hu2022lora} represented a breakthrough by decomposing weight updates into low-rank matrices, eliminating the need for additional inference latency that adapter methods incur. Hu et al.~\cite{hu2022lora} demonstrated that rank-16 decomposition (0.1\% of parameters for RoBERTa-Large) matches full fine-tuning on natural language understanding while enabling straightforward inference by merging learned weights. QLoRA~\citep{dettmers2023qlora} extended this approach with 4-bit NormalFloat quantization and double quantization of scaling factors, enabling 65B model fine-tuning on consumer GPUs. Dettmers et al. reported that 4-bit quantized fine-tuning matches full-precision performance on MMLU (62.8\% vs 63.1\%) and instruction-following benchmarks.
+
+Alternative quantization approaches have emerged beyond QLoRA's NormalFloat format. GPTQ~\citep{frantar2023gptq} introduced one-shot weight quantization using approximate second-order information, enabling 4-bit quantization of 175B models in 4 GPU-hours. AWQ~\citep{lin2024awq} improved upon GPTQ by identifying activation-aware salient channels and protecting only 1\% of weights from quantization, achieving better perplexity on LLaMA-2-7B (5.60 vs. GPTQ's 5.63) while supporting efficient on-device deployment. While both GPTQ and AWQ focus on post-training quantization for inference efficiency, our work investigates quantization during fine-tuning and its regularization effects on downstream RAG performance—a complementary perspective not explored in these studies.
 
 However, QLoRA's evaluation focuses on generic reasoning tasks (MMLU, HellaSwag, HumanEval) with self-contained prompts, not retrieval-augmented generation where context windows integrate heterogeneous multi-source data. No prior work systematically compares quantization levels (full-precision, 8-bit, 4-bit) within RAG pipelines to characterize memory-performance trade-offs specific to document processing tasks. Furthermore, existing studies assume quantization degrades performance and frame 4-bit as an acceptable compromise—our RQ1 and RQ3 challenge this assumption by investigating whether aggressive quantization provides implicit regularization that \textit{improves} generalization in RAG contexts.
 
@@ -286,6 +288,8 @@ Retrieval-Augmented Generation emerged to address LLMs' limitations in factual a
 Atlas~\citep{izacard2023atlas} refined RAG by jointly training retriever and reader with in-batch negatives, achieving state-of-the-art results on Natural Questions (64.0\% exact match) and TriviaQA (79.8\%). The original RAG paper~\citep{lewis2020rag} established the standard architecture: retrieve top-k documents with dense retrieval (DPR), concatenate as context, generate answer with sequence-to-sequence model. This pattern underpins modern RAG systems but focuses on single-modality text corpora.
 
 Practical RAG frameworks emerged to democratize these techniques. LangChain~\citep{langchain2023} provides document loaders for 50+ formats, text splitters, vector store integrations, and chain abstractions but relies on monolithic pipeline architecture. LlamaIndex~\citep{llamaindex2023} (formerly GPT Index) emphasizes structured data integration with SQL databases and knowledge graphs, offering query engines and response synthesizers. Haystack~\citep{haystack2023} targets production deployments with pipeline DAGs, model versioning, and REST APIs.
+
+Recent work has explored more sophisticated retrieval paradigms. GraphRAG~\citep{edge2024graphrag} constructs knowledge graphs from document corpora and uses community detection to enable query-focused summarization, achieving superior performance on global sensemaking queries over na\"ive RAG. Self-RAG~\citep{asai2024selfrag} introduces a self-reflective framework where the LLM learns to retrieve on demand and critique its own generations through special reflection tokens, improving factuality on knowledge-intensive benchmarks. While GraphRAG addresses global query understanding and Self-RAG improves retrieval decisions, neither addresses multi-source heterogeneous data integration or evaluates the interaction between quantized fine-tuning and retrieval quality—gaps our work specifically targets.
 
 Despite these advances, existing RAG frameworks exhibit three limitations our work addresses. \textbf{First}, they process single modalities—text documents—rather than integrating heterogeneous sources (audio transcripts, video captions, web content, structured text) requiring different extraction pipelines. \textbf{Second}, they use monolithic architectures where adding new data sources requires modifying core pipeline logic, violating separation of concerns. A developer adding YouTube video support to LangChain must alter the DocumentLoader base class hierarchy and update the ingestion chain. \textbf{Third}, no prior work evaluates RAG systems with quantized fine-tuned models (all use full-precision or off-the-shelf pre-trained models), leaving the quantization-RAG performance relationship uncharacterized. Our RQ2 addresses architectural modularity through Hexagonal Architecture, while RQ1 characterizes quantization trade-offs in multi-source RAG contexts.
 
@@ -309,14 +313,14 @@ Domain-Driven Design~\citep{evans2003ddd} provides complementary patterns—boun
 
 ML pipeline frameworks focus on workflow orchestration rather than architectural patterns. Apache Airflow and Kubeflow define directed acyclic graphs of tasks but treat ML components as black boxes. MLflow~\citep{chen2020mlflow} addresses model registry and experiment tracking but not modular system design. Vertex AI and SageMaker provide managed infrastructure but prescribe specific architectural choices.
 
-Recent work on ML system design~\citep{paleyes2022mle} identifies technical debt in monolithic ML codeine: tight coupling between data ingestion, feature engineering, training, and serving prevents independent evolution. Sculley et al.~\cite{sculley2015debt} documented how hidden feedback loops and undeclared consumers create brittle ML systems. Polyzotis et al.~\cite{polyzotis2017mldata} argue for data validation and schema enforcement but stop short of architectural recommendations.
+Recent work on ML system design~\citep{paleyes2022mle} identifies technical debt in monolithic ML code: tight coupling between data ingestion, feature engineering, training, and serving prevents independent evolution. Sculley et al.~\cite{sculley2015debt} documented how hidden feedback loops and undeclared consumers create brittle ML systems. Polyzotis et al.~\cite{polyzotis2017mldata} argue for data validation and schema enforcement but stop short of architectural recommendations.
 
-Our work is the first to apply Hexagonal Architecture to multi-source RAG systems, demonstrating measurable benefits: 12 adapters developed independently (average 4 hours to add new source), testable in isolation (95\% code coverage), and composable through FIFO orchestration (65ms overhead). Unlike prior ML architecture work that remains conceptual, we provide quantitative evidence (latency breakdown, coupling metrics) and open-source implementation demonstrating feasibility at production scale. Our RQ2 addresses the gap between software engineering patterns and ML system design through empirical evaluation.
+We apply Hexagonal Architecture to multi-source RAG systems, demonstrating measurable benefits: 12 adapters developed independently (average 4 hours to add new source), testable in isolation (95\% code coverage), and composable through FIFO orchestration (65ms overhead). Unlike prior ML architecture work that remains conceptual, we provide quantitative evidence (latency breakdown, coupling metrics) and open-source implementation demonstrating feasibility at production scale. Our RQ2 addresses the gap between software engineering patterns and ML system design through empirical evaluation.
 
 \subsection{Positioning Summary}
 \label{sec:related-positioning}
 
-Our work differs from prior research in three fundamental aspects. \textbf{First}, we provide empirical evidence that 4-bit quantization \textit{improves} (not degrades) fine-tuning performance in RAG contexts, achieving 27\% lower training loss (0.38 vs 0.52 full-precision)—a finding not reported in QLoRA~\citep{dettmers2023qlora} or subsequent quantization studies that focus on generic benchmarks. This challenges the prevailing assumption that precision correlates with performance and reveals quantization noise as implicit regularization. \textbf{Second}, we demonstrate the first application of Hexagonal Architecture to multi-source RAG, showing that modular adapter design incurs only 65ms latency overhead (16\% of total) while enabling independent data source integration—addressing architectural gaps in LangChain~\citep{langchain2023}, LlamaIndex~\citep{llamaindex2023}, and Haystack~\citep{haystack2023} that rely on monolithic pipelines. \textbf{Third}, we conduct comprehensive evaluation across four research questions spanning fine-tuning efficiency (RQ1), implicit regularization (RQ3), architectural modularity (RQ2), and hybrid retrieval (RQ4), using eight quantitative metrics (training loss, ROUGE, Precision@k, latency) and providing reproducible evidence through open-source replication package (Section~\ref{sec:replication}). This breadth distinguishes our work from narrow optimization studies that address single dimensions in isolation.
+Our work differs from prior research in three fundamental aspects. \textbf{First}, we provide empirical evidence that 4-bit quantization \textit{improves} (not degrades) fine-tuning performance in RAG contexts, achieving 27\% lower training loss (0.38 vs 0.52 full-precision)—a finding not reported in QLoRA~\citep{dettmers2023qlora} or subsequent quantization studies that focus on generic benchmarks. This challenges the prevailing assumption that precision correlates with performance and reveals quantization noise as implicit regularization. \textbf{Second}, we apply Hexagonal Architecture to multi-source RAG, showing that modular adapter design incurs only 65ms latency overhead (16\% of total) while enabling independent data source integration—addressing architectural gaps in LangChain~\citep{langchain2023}, LlamaIndex~\citep{llamaindex2023}, and Haystack~\citep{haystack2023} that rely on monolithic pipelines. \textbf{Third}, we conduct comprehensive evaluation across four research questions spanning fine-tuning efficiency (RQ1), implicit regularization (RQ3), architectural modularity (RQ2), and hybrid retrieval (RQ4), using eight quantitative metrics (training loss, ROUGE, Precision@k, latency) and providing reproducible evidence through open-source replication package (Section~\ref{sec:replication}). This breadth distinguishes our work from narrow optimization studies that address single dimensions in isolation.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -756,7 +760,14 @@ Table~\ref{tab:retrieval-comparison} demonstrates hybrid retrieval's consistent 
     \end{tabular}
 \end{table}
 
-Table~\ref{tab:query-type-breakdown} decomposes hybrid retrieval's benefit by query type. Multi-hop queries benefit most (P@5: 0.75 vs. BM25 0.44, +70\% over BM25), where combining lexical anchors with semantic understanding is essential. Conceptual queries show moderate gains (+5\%, semantic search already excels at 0.83), while factual queries exhibit the smallest improvement (+7\%, exact term matching suffices).
+Table~\ref{tab:query-type-breakdown} decomposes hybrid retrieval's benefit by query type. Multi-hop queries benefit most (P@5: 0.75 vs. BM25 0.44, +70\% over BM25), where combining lexical anchors with semantic understanding is essential. Conceptual queries show moderate gains (+5\%, semantic search already excels at 0.83), while factual queries exhibit the smallest improvement (+7\%, exact term matching suffices). Figure~\ref{fig:query-type-performance} visualizes these differences.
+
+\begin{figure}[tb]
+    \centering
+    \includegraphics[width=0.9\columnwidth]{figures/query-type-performance.pdf}
+    \caption{Precision@5 by query type across retrieval strategies. Hybrid retrieval provides largest gains on multi-hop queries (+70\% over BM25) while maintaining consistent improvements for factual and conceptual queries.}
+    \label{fig:query-type-performance}
+\end{figure}
 
 The mechanism underlying hybrid retrieval's success relates to complementary failure modes. BM25 excels when query terms appear verbatim in documents but fails when synonyms, pronouns, or conceptual relationships require bridging. Semantic search handles paraphrasing robustly through dense embeddings but occasionally misranks documents with high lexical overlap (e.g., shared boilerplate text) that lack semantic relevance. RRF fusion~\citep{cormack2009rrf} mitigates both failure modes by promoting documents that rank highly in \textit{either} retrieval method, effectively implementing an OR operation over lexical and semantic match signals.
 
@@ -846,7 +857,19 @@ Single random seed could yield atypical results; stochastic variation in trainin
 All experiments repeated with 3 seeds (42, 43, 44). We report mean $\pm$ standard deviation; statistical significance tested via paired t-test (Table~\ref{tab:version-comparison}: v3 vs. v1, p = 0.0003, Cohen's d = 0.9). While 10+ seeds are recommended for high-confidence claims~\citep{henderson2018deep}, our large effect sizes (d > 0.8) suggest robust findings.
 
 \noindent
-\textbf{Threat 4: Hyperparameter tuning on validation set.} 
+\textbf{Threat 4: Hyperparameter confounds across versions.}
+Learning rate (v1/v2: 2e-4, v3: 8e-5) and batch size (v1: 4, v2: 6, v3: 8) differ across quantization levels (Table~\ref{tab:hyperparameters}), potentially confounding quantization effects with hyperparameter choices.
+
+\noindent
+\textbf{Mitigation:}
+We selected hyperparameters via grid search per configuration to maximize each version's performance independently, following standard practice for fair comparison~\citep{dettmers2023qlora}. Using identical hyperparameters across quantization levels would disadvantage configurations with different memory budgets and optimization landscapes. Effective batch sizes are comparable (v1: 16, v2: 18, v3: 16), controlling for this variable. The learning rate difference reflects 4-bit quantization's narrower loss landscape, where smaller steps prevent overshooting quantized weight boundaries.
+
+\noindent
+\textbf{Residual Risk:}
+A fully controlled ablation (identical hyperparameters) would isolate quantization effects but at the cost of suboptimal per-version performance. Future work should conduct sensitivity analysis across learning rate and batch size ranges.
+
+\noindent
+\textbf{Threat 5: Hyperparameter tuning on validation set.} 
 Tuning on validation set risks overfitting to this specific split.
 
 \noindent
@@ -857,7 +880,7 @@ Final evaluation used held-out test set (500 queries) not seen during tuning. Hy
 \label{sec:threats-external}
 
 \noindent
-\textbf{Threat 5: Model-specific results.} 
+\textbf{Threat 6: Model-specific results.} 
 Findings specific to Qwen2.5-3B may not generalize to other model families.
 
 \noindent
@@ -869,7 +892,7 @@ Qwen2.5 uses standard Transformer components (GQA, SwiGLU) common to modern LLMs
 Quantization paradox requires validation on 7B+ models and non-Qwen families (Section~\ref{sec:conclusion}).
 
 \noindent
-\textbf{Threat 6: Language bias.} 
+\textbf{Threat 7: Language bias.} 
 Evaluation primarily English; embedding model (bge-small-en-v1.5~\citep{bge2023}) optimized for English.
 
 \noindent
@@ -881,7 +904,7 @@ Preliminary Turkish evaluation (50 queries) showed 72\% accuracy vs. 89\% Englis
 Non-English performance not comprehensively validated.
 
 \noindent
-\textbf{Threat 7: Hardware-specific performance.} 
+\textbf{Threat 8: Hardware-specific performance.} 
 Results obtained on RTX 4090 (24GB); latency/memory may differ on other GPUs.
 
 \noindent
@@ -896,7 +919,7 @@ CPU-only and mobile/edge inference not evaluated.
 \label{sec:threats-conclusion}
 
 \noindent
-\textbf{Threat 8: Sample size.} 
+\textbf{Threat 9: Sample size.} 
 Test set (500 queries) may be insufficient for rare query types or low-frequency failure modes.
 
 \noindent
@@ -904,7 +927,7 @@ Test set (500 queries) may be insufficient for rare query types or low-frequency
 Statistical power analysis confirms paired t-test with n=500, $\alpha=0.01$ achieves 0.99 power to detect medium effect size (Cohen's d $\geq$ 0.5). Observed effect sizes are large (d = 0.8-0.9). Rare query types (e.g., ambiguous questions, adversarial inputs) remain underrepresented.
 
 \noindent
-\textbf{Threat 9: Corpus size variation.} 
+\textbf{Threat 10: Corpus size variation.} 
 Retrieval performance evaluated on corpora up to 50K documents; behavior at larger scale (1M+) unknown.
 
 \noindent
@@ -988,14 +1011,14 @@ The most surprising contribution is the \textit{quantization paradox}: aggressiv
 
 \textbf{For Machine Learning Researchers:} Our quantization paradox challenges the assumption that model capacity (precision) correlates with performance. Prior PEFT work~\citep{hu2022lora,dettmers2023qlora} focuses on memory efficiency as a \textit{trade-off} against accuracy; we demonstrate that 4-bit quantization is a \textit{win-win}. This suggests implicit regularization mechanisms warrant deeper investigation—future work should analyze quantization noise through information-theoretic lens (e.g., PAC-Bayes bounds). The synergy between quantization and fine-tuning opens research directions in adaptive quantization schedules, mixed-precision training, and 1-bit extreme quantization (BitNet~\citep{wang2023bitnet}).
 
-\textbf{For Software Engineering Researchers:} We demonstrate the first application of Hexagonal Architecture to multi-source RAG, establishing design patterns for modular ML systems. This addresses architectural gaps in popular RAG frameworks~\citep{langchain2023,llamaindex2023} that rely on monolithic pipelines. Our work suggests Ports \& Adapters pattern generalizes beyond microservices to ML systems, with measurable benefits (65ms overhead, independent adapter development). Future SE research should investigate: (1) architectural patterns for other ML pipelines (training, deployment, monitoring), (2) testability metrics for ML adapters, (3) technical debt in modular vs. monolithic ML systems.
+\textbf{For Software Engineering Researchers:} We apply Hexagonal Architecture to multi-source RAG, establishing design patterns for modular ML systems. This addresses architectural gaps in popular RAG frameworks~\citep{langchain2023,llamaindex2023} that rely on monolithic pipelines. Our work suggests Ports \& Adapters pattern generalizes beyond microservices to ML systems, with measurable benefits (65ms overhead, independent adapter development). Future SE research should investigate: (1) architectural patterns for other ML pipelines (training, deployment, monitoring), (2) testability metrics for ML adapters, (3) technical debt in modular vs. monolithic ML systems.
 
 \textbf{For Practitioners:} Our findings democratize LLM fine-tuning by reducing hardware requirements from 24GB (full-precision) to 8GB (4-bit), enabling deployment on consumer GPUs (RTX 3050/4060). Cloud cost reduction is substantial: \$0.015 vs. \$0.051 per request (3.4$\times$ cheaper). For enterprise RAG systems, Hexagonal Architecture enables rapid integration of new data sources (YouTube adapter added in 4 hours) without modifying core pipeline. Practitioners should adopt 4-bit QLoRA as default fine-tuning strategy and consider Ports \& Adapters pattern for production RAG deployments. Replication package (Section~\ref{sec:replication}) provides production-ready code and deployment guidelines.
 
 \subsection{Future Directions}
 \label{sec:conclusion-future}
 
-\textbf{Short-Term (Addressing Validity Threats):} To strengthen external validity, we plan to replicate quantization paradox on larger models (Qwen2.5-7B, Llama-3.1-8B, Gemma-2-9B) and diverse tasks (question answering on Natural Questions~\citep{kwiatkowski2019natural}, fact extraction on FEVER~\citep{thorne2018fever}). Multilingual evaluation should include TurkishMMLU~\citep{qwen2024technical}, Chinese benchmarks (C-Eval), and low-resource languages. Large-scale corpus testing (1M+ documents) will validate retrieval performance at scale. These extensions directly address Threats 5, 6, 9 (Section~\ref{sec:threats}).
+\textbf{Short-Term (Addressing Validity Threats):} To strengthen external validity, we plan to replicate quantization paradox on larger models (Qwen2.5-7B, Llama-3.1-8B, Gemma-2-9B) and diverse tasks (question answering on Natural Questions~\citep{kwiatkowski2019natural}, fact extraction on FEVER~\citep{thorne2018fever}). Multilingual evaluation should include TurkishMMLU~\citep{qwen2024technical}, Chinese benchmarks (C-Eval), and low-resource languages. Large-scale corpus testing (1M+ documents) will validate retrieval performance at scale. These extensions directly address Threats 6, 7, 10 (Section~\ref{sec:threats}).
 
 \textbf{Medium-Term (Extended Capabilities):} Current system processes only text modalities (audio/video transcripts); future work should integrate vision-language models (CLIP~\citep{radford2021clip}, ImageBind~\citep{girdhar2023imagebind}) for multimodal embedding. This enables retrieval over images, tables, diagrams—critical for scientific/technical documents. Cross-encoder reranking (ColBERT~\citep{khattab2020colbert}, MonoT5~\citep{nogueira2020monoT5}) could improve Precision@1 (currently 0.84 → target 0.90+). Adaptive quantization schedules (start full-precision, gradually quantize) may further improve convergence. Production deployment requires investigating model distillation, continuous fine-tuning on user feedback, and A/B testing infrastructure.
 
