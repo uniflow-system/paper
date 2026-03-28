@@ -89,65 +89,16 @@
 
 \maketitle
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% SECTION 1: INTRODUCTION
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% TRANSFORMATION RULE: Hook → Gap → Contributions → Organization
-% Target: 2 pages (~1200 words)
-% Structure: 5 paragraphs + bullet list + roadmap
-%
-% TEZ INTRODUCTION PROBLEM: 8 pages, encyclopedic, bottom-up storytelling
-% MAKALE INTRODUCTION SOLUTION: Compact, top-down, contribution-first
-%
-% PARAGRAPH BREAKDOWN:
-% Para 1 (Hook): Compelling problem statement with real-world motivation
-%   - Start with broad impact (information overload, knowledge management crisis)
-%   - Narrow to specific pain point (heterogeneous data integration)
-%   - End with why existing solutions fail
-%   - Source: Tez sayfa 1, paragraf 1-2
-%
-% Para 2-3 (Gap): What's missing in current research/practice
-%   - Gap 1: Full-precision fine-tuning not scalable (memory cost)
-%   - Gap 2: Quantization assumed to degrade performance
-%   - Gap 3: Multi-source RAG systems lack modular architectures
-%   - Gap 4: No empirical comparison of quantization levels in RAG context
-%   - Each gap cited with [X] references showing what exists
-%   - Source: Tez Bölüm 1.1 (Problem Tanımı), Bölüm 2 (Literatür)
-%
-% Para 4 (Research Questions Preview): High-level RQ overview
-%   - "This paper investigates whether..."
-%   - Link gaps to RQs (detailed in Section 2)
-%   - Source: Will be newly formulated
-%
-% Para 5 (Contributions): Bullet list of novel contributions
-%   - Each contribution: WHAT (finding) + WHY (impact) + WHERE (evidence)
-%   - Use \textbf{} for contribution labels
-%   - Source: Tez Bölüm 7.2 (Katkılar) + new framing
-%
-% Para 6 (Organization): Paper roadmap
-%   - "The remainder of this paper is organized as follows..."
-%   - One sentence per section
-%   - Source: Standard template
-%
-% WRITING TIPS:
-% - Use active voice ("We demonstrate" not "It is demonstrated")
-% - Lead with findings, not process ("4-bit achieves X" not "We tried 4-bit")
-% - Quantify everything (numbers, percentages, comparisons)
-% - Avoid "novel" (show, don't tell)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SECTION 1: INTRODUCTION
 \section{Introduction}
 \label{sec:introduction}
 
-% PARA 1: HOOK (shortened)
 Modern knowledge workers interact with information across diverse modalities—audio recordings, video lectures, web articles, and text documents—yet existing systems process each in isolation, fragmenting knowledge. Retrieval-Augmented Generation (RAG) systems promise unified multi-source access by combining retrieval with large language models, yet face critical trade-offs: full-precision fine-tuning achieves strong domain adaptation but requires 24GB+ GPUs, excluding resource-constrained researchers, while pre-trained models avoid this cost but produce generic responses lacking domain nuances.
 
-% PARA 2: RESEARCH GAPS (consolidated from 3 paragraphs)
 Three research gaps motivate this work. \textbf{First}, while parameter-efficient fine-tuning methods~\citep{hu2022lora,dettmers2023qlora} reduce memory requirements, existing studies evaluate on generic benchmarks rather than retrieval-augmented generation scenarios, and no prior work systematically compares quantization levels (full-precision, 8-bit, 4-bit) within RAG pipelines. \textbf{Second}, model compression research assumes quantization precision positively correlates with performance~\citep{gholami2022survey,jacob2018quantization}, treating 4-bit models as necessary compromises rather than exploring potential regularization benefits—yet theoretical work suggests stochastic rounding provides regularization~\citep{gupta2015deep} that remains empirically unvalidated for RAG fine-tuning. \textbf{Third}, existing RAG frameworks~\citep{langchain2023,llamaindex2023,haystack2023} rely on monolithic architectures where adding new data sources requires modifying core pipeline logic, and Hexagonal Architecture~\citep{cockburn2005hexagonal}, well-established in microservices, remains underexplored for modular multi-source RAG systems.
 
-% PARA 3: RQ PREVIEW (shortened)
 This paper investigates these gaps through four research questions characterizing quantization trade-offs in RAG fine-tuning (RQ1), evaluating implicit regularization from aggressive quantization (RQ3), assessing Hexagonal Architecture's feasibility for modular RAG (RQ2), and comparing hybrid retrieval strategies (RQ4).
 
-% PARA 4: CONTRIBUTIONS (forward references minimized)
 \noindent
 This paper makes the following contributions:
 
@@ -161,44 +112,10 @@ This paper makes the following contributions:
     \item \textbf{Replication Package:} We release an open-source implementation with trained model checkpoints, complete source code (12 adapters, FIFO orchestration, hybrid retrieval), evaluation scripts, and dataset preprocessing pipelines. Minimal hardware requirement (RTX 3050 8GB, 16GB RAM) enables reproduction in 2-3 days, democratizing access to resource-efficient RAG research.
 \end{itemize}
 
-% PARA 5: ORGANIZATION
 \noindent
 The remainder of this paper is organized as follows. Section~\ref{sec:research-questions} formulates the research questions guiding our investigation. Section~\ref{sec:related-work} positions our work relative to parameter-efficient fine-tuning, RAG systems, retrieval strategies, and software architecture research. Section~\ref{sec:method} describes the UniFlow architecture, fine-tuning methodology, hybrid retrieval pipeline, and evaluation design. Section~\ref{sec:results} presents findings for each research question with quantitative evidence and ablation studies on key hyperparameters. Section~\ref{sec:threats} discusses threats to validity. Section~\ref{sec:replication} details the replication package. Section~\ref{sec:conclusion} concludes with implications and future work.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% SECTION 2: RESEARCH QUESTIONS
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% TRANSFORMATION RULE: NEW SECTION - Does not exist in thesis
-% Target: 0.5 pages (~300 words)
-% Structure: 4 main RQs + 2 sub-RQs each
-%
-% PURPOSE: Frame entire paper around empirical inquiry (Mary Shaw ICSE'03)
-% - Establishes scientific rigor expected by ASE reviewers
-% - Provides roadmap for Results section (1:1 RQ-to-subsection mapping)
-% - Enables clear validation criteria
-%
-% RQ FORMULATION RULES:
-% 1. Each RQ = Question type + Variables + Context
-% 2. Question types (Shaw taxonomy):
-%    - Generalization: "What are the characteristics of X?"
-%    - Feasibility: "Can technique X work in context Y?"
-%    - Characterization: "What is the relationship between X and Y?"
-%    - Evaluation: "How does X compare to Y?"
-% 3. Variables must be measurable
-% 4. Sub-RQs decompose main RQ into testable components
-%
-% RQ SOURCES (map to Results):
-% - RQ1: Memory-performance trade-offs → Table 5, Table 10, Figure 6.1
-% - RQ2: Hexagonal Architecture effectiveness → Table 9, Section 3.1
-% - RQ3: Quantization regularization → Figure 4.2, Table 5
-% - RQ4: Hybrid retrieval → Table 6, Table 7, Table 8
-%
-% WRITING GUIDE:
-% - Use italics for RQ text: \textit{question}
-% - Use bold for RQ labels: \textbf{RQ1}
-% - Sub-RQs indented with itemize
-% - Each RQ ends with "(Section~\ref{sec:results-rqX})" pointer
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SECTION 2: RESEARCH QUESTIONS
 \section{Research Questions}
 \label{sec:research-questions}
 
@@ -216,58 +133,7 @@ We investigate the following research questions to address the gaps identified i
 \noindent
 \textbf{RQ4 [Evaluation]:} \textit{How does hybrid retrieval (BM25 + Semantic Search + RRF) compare to single-strategy approaches in terms of precision, recall, and query type robustness?} This question evaluates the effectiveness of combining lexical and semantic search through Reciprocal Rank Fusion. We measure standard information retrieval metrics (Precision@k, Recall@k, MRR, NDCG@10) across 500 diverse queries and decompose performance by query type (factual, conceptual, multi-hop) to identify when hybrid retrieval provides advantage.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% SECTION 3: RELATED WORK
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% TRANSFORMATION RULE: Critical Positioning (not encyclopedic survey)
-% Target: 3 pages (~1800 words)
-% Structure: 4 subsections + positioning paragraph
-%
-% TEZ RELATED WORK PROBLEM: 15 pages, comprehensive survey, descriptive
-% MAKALE RELATED WORK SOLUTION: Selective, critical, gap-focused
-%
-% SELECTION CRITERIA:
-% 1. MUST cite: Direct competitors, foundational work, recent SOTA
-% 2. SHOULD cite: Related approaches with different trade-offs
-% 3. SKIP: General background, tangential topics
-%
-% SUBSECTION BREAKDOWN:
-% 3.1: Parameter-Efficient Fine-Tuning (12-15 refs)
-%   - Core: LoRA [15], QLoRA [16], Adapters [13], Prefix-Tuning [14]
-%   - Position: "Unlike X which focuses on general tasks, we investigate RAG-specific..."
-%   - Source: Tez Section 2.2 (select 40% of content)
-%
-% 3.2: Retrieval-Augmented Generation (10-12 refs)
-%   - Core: REALM [43], RETRO [44], Atlas [45], RAG [19]
-%   - Position: "Prior RAG systems use single data modality; we integrate 4 heterogeneous..."
-%   - Source: Tez Section 2.3 (select 30% of content)
-%
-% 3.3: Information Retrieval Strategies (8-10 refs)
-%   - Core: BM25 [25], DPR [27], ColBERT [29], RRF [35]
-%   - Position: "Existing hybrid methods use learned fusion; we demonstrate RRF suffices..."
-%   - Source: Tez Section 2.4 (select 50% of content)
-%
-% 3.4: Software Architecture for ML Systems (6-8 refs)
-%   - Core: Hexagonal Architecture [37], ML pipelines, MLOps patterns
-%   - Position: "Hexagonal Architecture is well-established in microservices but underexplored in ML..."
-%   - Source: Tez Section 2.5 + new MLOps literature
-%
-% POSITIONING PARAGRAPH (end of section):
-% "Our work differs from prior approaches in three key aspects..."
-%   1. Quantization paradox (empirical evidence)
-%   2. Multi-source architecture (modular design)
-%   3. Comprehensive evaluation (4 RQs, 8 metrics)
-%
-% CRITICAL POSITIONING PATTERN:
-% "While [Paper X] demonstrates [contribution X], their approach [limitation X].
-%  In contrast, our work [how we address limitation]."
-%
-% WRITING TIPS:
-% - Every paragraph ends with "Unlike..." or "In contrast..." or "However..."
-% - Use comparison tables if space allows (e.g., RAG systems feature matrix)
-% - Cite numbers (e.g., "X reports 0.45 F1; we achieve 0.56")
-% - Forward-reference your contributions (e.g., "...which we address in Section 4")
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SECTION 3: RELATED WORK
 \section{Related Work}
 \label{sec:related-work}
 
@@ -356,56 +222,7 @@ We apply Hexagonal Architecture to multi-source RAG systems, demonstrating measu
 Our work differs from prior research in three fundamental aspects. \textbf{First}, we provide empirical evidence that 4-bit quantization \textit{improves} (not degrades) fine-tuning performance in RAG contexts, achieving 27\% lower training loss (0.38 vs 0.52 full-precision)—a finding not reported in QLoRA~\citep{dettmers2023qlora} or subsequent quantization studies that focus on generic benchmarks. This challenges the prevailing assumption that precision correlates with performance and reveals quantization noise as implicit regularization. \textbf{Second}, we apply Hexagonal Architecture to multi-source RAG, showing that modular adapter design incurs only 65ms latency overhead (16\% of total) while enabling independent data source integration—addressing architectural gaps in LangChain~\citep{langchain2023} and LlamaIndex~\citep{llamaindex2023} that rely on monolithic pipelines, and Haystack~\citep{haystack2023} whose DAG-based pipeline lacks port-interface isolation. \textbf{Third}, we conduct comprehensive evaluation across four research questions spanning fine-tuning efficiency (RQ1), implicit regularization (RQ3), architectural modularity (RQ2), and hybrid retrieval (RQ4), using eight quantitative metrics (training loss, ROUGE, Precision@k, latency) and providing reproducible evidence through open-source replication package (Section~\ref{sec:replication}). This breadth distinguishes our work from narrow optimization studies that address single dimensions in isolation.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% SECTION 4: RESEARCH METHOD
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% TRANSFORMATION RULE: RQ-driven Methodology + Reproducibility-first
-% Target: 5 pages (~3000 words)
-% Structure: 5 subsections (architecture, fine-tuning, retrieval, eval design, impl details)
-%
-% TEZ METHOD PROBLEM: 25 pages, process-oriented, verbose explanations
-% MAKALE METHOD SOLUTION: Concise, reproducibility-focused, decision justification
-%
-% SUBSECTION BREAKDOWN:
-% 4.1: System Architecture (Hexagonal Design)
-%   - Figure: Hexagonal Architecture diagram (Şekil 3.2)
-%   - Figure: FIFO Orchestration (Şekil 3.3)
-%   - Content: 12 adapters taxonomy, port definitions, orchestration
-%   - Source: Tez Section 3.1 (compress 60%)
-%   - Rationale: Why Hexagonal? (modularity, testability)
-%
-% 4.2: Fine-Tuning Methodology
-%   - Table: Hyperparameters (Tablo 4)
-%   - Content: Dataset (SAMSum+DialogSum), QLoRA config, v1/v2/v3 specs
-%   - Source: Tez Section 4.2, 4.3 (compress 70%)
-%   - Rationale: Why these hyperparameters? (literature + preliminary experiments)
-%
-% 4.3: Hybrid Retrieval Pipeline
-%   - Figure: RAG pipeline (Şekil 5.1)
-%   - Content: BM25 + Semantic + RRF implementation
-%   - Source: Tez Section 5.1 (compress 60%)
-%   - Rationale: Why RRF over learned fusion? (parameter-free, robust)
-%
-% 4.4: Evaluation Design
-%   - Table: Metrics summary
-%   - Content: ROUGE, Precision@k, Recall@k, MRR, latency, memory
-%   - Source: Tez Section 6 intro (expand evaluation design)
-%   - Rationale: Why these metrics? (align with RQs, standard benchmarks)
-%
-% 4.5: Implementation Details
-%   - Table: Technology stack (Tablo 2)
-%   - Content: Hardware, software versions, random seeds
-%   - Source: Tez Section 3.2 (compress 80%)
-%   - Rationale: Reproducibility essentials only
-%
-% WRITING GUIDE:
-% - Start each subsection with "To address RQX..."
-% - Use past tense for what you did ("We implemented...")
-% - Use present tense for design rationale ("This approach ensures...")
-% - Include decision justification: "We chose X over Y because Z"
-% - Reference figures/tables explicitly: "Figure X shows..."
-% - End each subsection with forward reference: "Results in Section Y demonstrate..."
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SECTION 4: RESEARCH METHOD
 \section{Research Method}
 \label{sec:method}
 
@@ -548,61 +365,7 @@ We conducted experiments on an NVIDIA RTX 4090 (24GB VRAM) with Intel i9-13900K 
 
 We tracked experiments using MLflow~\citep{chen2020mlflow}, logging hyperparameters and model checkpoints with Git hashes. The replication package described in Section~\ref{sec:replication} includes trained weights.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% SECTION 5: RESULTS AND DISCUSSION
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% TRANSFORMATION RULE: RQ-aligned Findings + Evidence + Discussion
-% Target: 8 pages (~4800 words)
-% Structure: 4 subsections (1 per RQ) + summary
-%
-% TEZ RESULTS PROBLEM: 6 pages, metrics listed without interpretation
-% MAKALE RESULTS SOLUTION: Finding → Evidence → Discussion → Implication
-%
-% SUBSECTION TEMPLATE (per RQ):
-% 1. Restate RQ (1 sentence)
-% 2. Finding headline (bold, quantitative)
-% 3. Evidence (table/figure reference)
-% 4. Discussion (why this result? implications?)
-% 5. Connection to next RQ
-%
-% SUBSECTION BREAKDOWN:
-% 5.1: RQ1 - Quantization Trade-offs
-%   - Finding: 4-bit achieves lowest loss (0.38 vs. 0.52)
-%   - Evidence: Table 5, Figure 4.2, Table 10
-%   - Discussion: Implicit regularization hypothesis
-%   - Source: Tez Section 4.4, 6.1, 6.6
-%
-% 5.2: RQ2 - Hexagonal Architecture Effectiveness
-%   - Finding: 65ms retrieval overhead, modular design validated
-%   - Evidence: Table 9 (latency breakdown)
-%   - Discussion: Modularity vs. performance trade-off
-%   - Source: Tez Section 6.5, 3.1
-%
-% 5.3: RQ3 - Implicit Regularization
-%   - Finding: Training loss correlates inversely with quantization
-%   - Evidence: Figure 4.2, gradient norms
-%   - Discussion: Quantization noise as dropout-like effect
-%   - Source: Tez Section 4.4, 6.1
-%
-% 5.4: RQ4 - Hybrid Retrieval Superiority
-%   - Finding: Precision@5=0.81, 9-40% gain over single-strategy
-%   - Evidence: Table 6, Table 7, Table 8
-%   - Discussion: Query type analysis, when hybrid helps
-%   - Source: Tez Section 6.2, 6.3, 6.4
-%
-% 5.5: Summary of Findings
-%   - Synthesize all RQs
-%   - Highlight surprising results (4-bit paradox)
-%   - Preview threats to validity (Section 6)
-%
-% WRITING GUIDE:
-% - Start with bold finding: "\textbf{Finding:} 4-bit quantization..."
-% - Follow with evidence: "Table~\ref{tab:X} shows..."
-% - Interpret: "This result suggests... because..."
-% - Contextualize: "Compared to prior work [X], our finding..."
-% - Use statistical language: "significant difference (p < 0.01)"
-% - Include effect sizes: "Cohen's d = 0.8 (large effect)"
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SECTION 5: RESULTS AND DISCUSSION
 \section{Results and Discussion}
 \label{sec:results}
 
@@ -870,34 +633,7 @@ These findings collectively challenge three prevalent assumptions in ML systems 
 
 However, these findings are subject to validity threats, which we examine in Section~\ref{sec:threats}. External validity is constrained by model choice (Qwen2.5-3B; results may not generalize to 7B+ models or non-Transformer architectures), dataset domain (conversational summarization; other tasks like code generation remain unvalidated), and language (primarily English; multilingual performance requires further study). Construct validity depends on ROUGE metric assumptions (lexical overlap may not fully capture semantic quality). We address these threats through mitigation strategies and provide replication package (Section~\ref{sec:replication}) enabling community validation across diverse models, tasks, and languages.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% SECTION 6: THREATS TO VALIDITY
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% TRANSFORMATION RULE: NEW SECTION - Wohlin et al. (2012) framework
-% Target: 1.5 pages (~900 words)
-% Structure: 4 subsections (Construct, Internal, External, Conclusion validity)
-%
-% PURPOSE: Critical for empirical SE papers (ASE expects this)
-% - Shows awareness of limitations
-% - Demonstrates methodological rigor
-% - Enables readers to assess generalizability
-%
-% FRAMEWORK: Wohlin et al. "Experimentation in Software Engineering" (2012)
-% - Construct Validity: Are we measuring what we claim?
-% - Internal Validity: Are confounds controlled?
-% - External Validity: Do results generalize?
-% - Conclusion Validity: Are statistical inferences valid?
-%
-% WRITING TEMPLATE (per threat):
-% \textbf{Threat:} [Specific limitation]
-% \textbf{Mitigation:} [What we did to address it]
-% \textbf{Residual Risk:} [What remains, future work]
-%
-% SOURCES:
-% - Tez Section 7.3 (Kısıtlamalar) provides starting points
-% - Expand each limitation into Threat + Mitigation format
-% - Add statistical testing details (not in thesis)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SECTION 6: THREATS TO VALIDITY
 \section{Threats to Validity}
 \label{sec:threats}
 
@@ -1021,30 +757,7 @@ Precision@5 remained stable (0.79-0.83) across tested range (1K-50K). Qdrant HNS
 Large-scale corpus (1M+ documents) not tested.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% SECTION 7: REPLICATION PACKAGE
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% TRANSFORMATION RULE: NEW SECTION - Increasingly expected by ASE
-% Target: 0.5 pages (~300 words)
-% Structure: Package contents + Reproducibility checklist + Resources
-%
-% PURPOSE: Enable community validation and extension
-% - Address external validity threats
-% - Lower barrier to entry for future research
-% - Demonstrate transparency and rigor
-%
-% COMPONENTS:
-% 1. GitHub repository structure
-% 2. README with step-by-step instructions
-% 3. Docker/conda environment specs
-% 4. Pre-trained model links (HuggingFace Hub)
-% 5. Evaluation scripts with expected outputs
-% 6. Hardware requirements and estimated time
-%
-% SOURCES:
-% - Tez mentions code but no formal replication package
-% - Expand based on ACM Artifact Evaluation guidelines
-% - Reference: https://www.acm.org/publications/policies/artifact-review-and-badging-current
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SECTION 7: REPLICATION PACKAGE
 \section{Replication Package}
 \label{sec:replication}
 
@@ -1052,30 +765,7 @@ To facilitate reproducibility and enable community validation, we provide a comp
 
 All experiments are fully specified for reproduction: random seeds are documented (42 for main results, 43/44 for variance estimation), exact library versions are pinned in \texttt{requirements.txt} (PyTorch 2.1.0, Transformers 4.36.0), and data preprocessing is deterministic (sorted by document ID). Hyperparameters are provided as commented JSON configuration files. Minimal hardware requirements are an RTX 3050 8GB GPU, 16GB RAM, and 50GB disk space. End-to-end replication takes approximately 2--3 days (1--2 hours setup, 8 hours training for v3, 4--6 hours evaluation), at an estimated cost of \$25 on a cloud GPU (AWS p3.2xlarge) or no additional cost on comparable consumer hardware. We commit to maintaining the replication package for 5 years.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% SECTION 8: CONCLUSION AND FUTURE WORK
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% TRANSFORMATION RULE: Concise wrap-up (not verbose summary)
-% Target: 2 pages (~1200 words)
-% Structure: 3 subsections (Summary, Implications, Future Directions)
-%
-% TEZ CONCLUSION PROBLEM: 4 pages, repetitive summary of entire thesis
-% MAKALE CONCLUSION SOLUTION: Forward-looking, impact-focused, actionable
-%
-% SUBSECTION BREAKDOWN:
-% 8.1: Summary of Contributions (0.5 pages)
-%   - Restate contributions (NOT detailed results)
-%   - Link to RQs (one sentence per RQ)
-%   - Emphasize surprising findings (4-bit paradox)
-%   - Source: Tez Section 7.1 (compress 70%)
-%
-% 8.2: Implications for Research and Practice (0.75 pages)
-%   - For researchers: Quantization paradox challenges assumptions
-%   - For practitioners: Democratization of LLM fine-tuning
-%   - For architects: Hexagonal pattern for RAG systems
-%   - Source: Tez Section 7.2 (expand implications)
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SECTION 8: CONCLUSION AND FUTURE WORK
 \section{Conclusion and Future Work}
 \label{sec:conclusion}
 
@@ -1152,19 +842,6 @@ Source code is available at \url{https://github.com/uniflow-system/ase-replicati
 \textbf{Süleyman Muhammed Arıkan:} Methodology, Resources, Writing – Review \& Editing.
 \textbf{İbrahim Alper Doğru:} Supervision, Resources, Writing – Review \& Editing, Project Administration.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% REFERENCES (sn-jnl class automatically sets bibliography style)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \bibliography{references}
-
-% NOTE: references.bib should contain ALL 63 citations from thesis
-% Format example:
-% @article{hu2022lora,
-%   author    = {Hu, Edward J. and Shen, Yelong and Wallis, Phillip and Allen-Zhu, Zeyuan and Li, Yuanzhi and Wang, Shean and Wang, Lu and Chen, Weizhu},
-%   title     = {{LoRA}: Low-Rank Adaptation of Large Language Models},
-%   journal   = {International Conference on Learning Representations (ICLR)},
-%   year      = {2022},
-%   url       = {https://openreview.net/forum?id=nZeVKeeFYf9}
-% }
 
 \end{document}
