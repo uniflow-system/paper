@@ -9,11 +9,29 @@
 *.synctex.gz
 *.toc
 
+# Compiled PDF output
+main.pdf
+
+# Old/archived versions
+uniflow.pdf
+uniflow_old_version.pdf
+
 # macOS
 .DS_Store
 
+# Editor/IDE config
+.vscode/
+.cursor/
+
+# Internal documentation (README.md is kept)
+LATEX_GUIDE.md
+uniflow.md
+
 # EPS conversion artifacts
 *-eps-converted-to.pdf
+
+# Springer template PDFs
+sn-article-template/*.pdf
 
 # Figure build artifacts (keep only .pdf and .tex)
 figures/*.aux
