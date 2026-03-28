@@ -12,6 +12,9 @@
 # macOS
 .DS_Store
 
+# EPS conversion artifacts
+*-eps-converted-to.pdf
+
 # Figure build artifacts (keep only .pdf and .tex)
 figures/*.aux
 figures/*.log
