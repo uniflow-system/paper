@@ -146,13 +146,13 @@ uniflow_ase/
 
 **Alt Bolumler:**
 
-1. **4.1 System Architecture: Hexagonal Design** — 12 adapter taksonomisi (4 input, 5 processing, 3 infrastructure), port tipleri (IInputAdapter, IProcessingAdapter, IInfrastructureAdapter), FIFO orchestration (LangGraph), kalite ozellikleri (modularity, extensibility, performance).
+1. **4.1 System Architecture: Hexagonal Design** — 12 adapter taksonomisi (4 input, 5 processing, 3 infrastructure), port tipleri (IInputAdapter, IProcessingAdapter, IInfrastructureAdapter), DAG-based orchestration (LangGraph), kalite ozellikleri (modularity, extensibility, performance).
    - **Figure 1** (`fig:hexagonal-architecture`): Hexagonal Architecture diyagrami — **PLACEHOLDER, OLUSTURULMALI**
 
 2. **4.2 Fine-Tuning Methodology** — Dataset (SAMSum + DialogSum = 28,982), preprocessing, QLoRA + LoRA implementasyonu, v1/v2/v3 karsilastirmasi.
    - **Table 1** (`tab:hyperparameters`): v1/v2/v3 hyperparameter karsilastirmasi
 
-3. **4.3 Hybrid Retrieval Pipeline** — BM25 + Semantic Search + RRF. Algorithm 1 (RRF pseudocode). Elasticsearch + Qdrant + bge-small-en-v1.5.
+3. **4.3 Hybrid Retrieval Pipeline** — BM25 + Semantic Search + RRF. Algorithm 1 (RRF pseudocode). BM25Retriever (rank-bm25) + Qdrant + bge-small-en-v1.5.
    - **Algorithm 1** (`alg:rrf`): RRF pseudocode
    - **Figure 2** (`fig:rag-pipeline`): Hybrid retrieval pipeline diyagrami — **PLACEHOLDER, OLUSTURULMALI**
 
@@ -259,7 +259,7 @@ Springer Nature formati geregi asagidaki declarations mevcut:
 | T1 | `tab:hyperparameters` | 4.2 | v1/v2/v3 fine-tuning hyperparametreleri |
 | T2 | `tab:evaluation-metrics` | 4.4 | RQ-metrik eslestirmesi (10 metrik, 4 RQ) |
 | T3 | `tab:version-comparison` | 5.1 | Quantization seviye karsilastirmasi (loss, memory, speed) |
-| T4 | `tab:latency-breakdown` | 5.2 | FIFO orchestration latency breakdown |
+| T4 | `tab:latency-breakdown` | 5.2 | DAG-based orchestration latency breakdown |
 | T5 | `tab:regularization-evidence` | 5.3 | ROUGE + gradient norm + train-val gap |
 | T6 | `tab:retrieval-comparison` | 5.4 | Retrieval strateji karsilastirmasi (P@k, R@k, MRR, NDCG) |
 | T7 | `tab:query-type-breakdown` | 5.4 | Query tipi bazinda P@5 performansi |
@@ -268,7 +268,7 @@ Springer Nature formati geregi asagidaki declarations mevcut:
 
 | # | Dosya | Section | Icerik | Oncelik |
 |---|---|---|---|---|
-| F1 | `figures/hexagonal-architecture.pdf` | 4.1 | 12 adapter, 3 port tipi, domain core, FIFO orchestration | **KRITIK** |
+| F1 | `figures/hexagonal-architecture.pdf` | 4.1 | 12 adapter, 3 port tipi, domain core, DAG-based orchestration | **KRITIK** |
 | F2 | `figures/training-loss-comparison.pdf` | 5.1 | 3 loss egrisi (v1/v2/v3), 1000 step, hata bantlari (3 seed) | **KRITIK** |
 | F3 | `figures/rag-pipeline.pdf` | 4.3 | BM25 + Semantic → RRF → Context → LLM akis diyagrami | **KRITIK** |
 

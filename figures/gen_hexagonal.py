@@ -158,7 +158,7 @@ for x, y, label in infra_adapters:
     draw_adapter(ax, x, y, label, C_INFRA)
     draw_connection(ax, x - 1.0, y, 1.7, y * 0.3, C_INFRA)
 
-# FIFO arrow at bottom
+# DAG orchestration arrow at bottom
 ax.annotate(
     "",
     xy=(2.5, -2.5),
@@ -170,7 +170,7 @@ ax.annotate(
 ax.text(
     0,
     -2.9,
-    "FIFO Orchestration (LangGraph)",
+    "DAG Orchestration (LangGraph)",
     ha="center",
     va="center",
     fontsize=9,
