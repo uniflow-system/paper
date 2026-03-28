@@ -15,7 +15,7 @@
 \usepackage{multirow}           % Multi-row table cells
 \usepackage{amsmath,amssymb,amsfonts}  % Mathematical typesetting
 \usepackage{amsthm}             % Theorem environments
-\usepackage{mathrsfs}           % Math script font
+% \usepackage{mathrsfs}         % Removed: \mathscr not used in this paper
 \usepackage[title]{appendix}    % Appendix handling
 \usepackage{xcolor}             % Color support
 \usepackage{textcomp}           % Text companion fonts
@@ -33,7 +33,8 @@
     linkcolor=blue,
     citecolor=blue,
     urlcolor=blue,
-    breaklinks=true
+    breaklinks=true,
+    hypertexnames=false
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -58,9 +59,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \author*[1]{\fnm{Tunahan} \sur{Büyükgebiz}}\email{buyukgebiztunahan@gmail.com}
+\orcid{0009-0004-8525-7215}
 \equalcont{These authors contributed equally to this work.}
 
 \author*[1]{\fnm{Toprak Necat} \sur{Gök}}\email{t.necatgok@gmail.com}
+\orcid{0009-0000-6199-5759}
 \equalcont{These authors contributed equally to this work.}
 
 \author[1]{\fnm{Süleyman Muhammed} \sur{Arıkan}}\email{arikan.sm@gmail.com}
@@ -541,9 +544,9 @@ We establish baselines for each RQ: v1 (full-precision) for RQ1/RQ3, BM25-only/S
 \subsection{Implementation Details}
 \label{sec:method-implementation}
 
-We conducted experiments on an NVIDIA RTX 4090 (24GB VRAM) with Intel i9-13900K CPU and 64GB DDR5 RAM running Ubuntu 24.04 LTS with CUDA 12.1. The 4-bit model (v3) was validated on RTX 3050 8GB laptops, confirming consumer hardware accessibility. Our software stack comprises PyTorch 2.1.0, Transformers 4.36.0, PEFT 0.8.0, BitsAndBytes 0.41.0, LangChain 0.1.0, Qdrant 1.7.4, and WhisperX 3.1.1. All dependencies are pinned in \texttt{requirements.txt} and \texttt{Dockerfile} for reproducibility~\citep{paleyes2022mle}.
+We conducted experiments on an NVIDIA RTX 4090 (24GB VRAM) with Intel i9-13900K CPU and 64GB DDR5 RAM running Ubuntu 24.04 LTS with CUDA 12.1. The 4-bit model (v3) was validated on RTX 3050 8GB laptops, confirming consumer hardware accessibility. Our software stack comprises PyTorch 2.1.0, Transformers 4.36.0, PEFT 0.8.0, BitsAndBytes 0.41.0, LangChain 0.1.0, Qdrant 1.7.4, Elasticsearch 8.11, and WhisperX 3.1.1. All dependencies are pinned in \texttt{requirements.txt} and \texttt{Dockerfile} for reproducibility~\citep{paleyes2022mle}.
 
-To ensure reproducibility, all experiments use seed=42 and deterministic algorithms (\texttt{torch.use\_deterministic\_algorithms(True)}). We tracked experiments using MLflow~\citep{chen2020mlflow}, logging hyperparameters and model checkpoints with Git hashes. The replication package described in Section~\ref{sec:replication} includes trained weights.
+We tracked experiments using MLflow~\citep{chen2020mlflow}, logging hyperparameters and model checkpoints with Git hashes. The replication package described in Section~\ref{sec:replication} includes trained weights.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % SECTION 5: RESULTS AND DISCUSSION
@@ -937,7 +940,7 @@ All experiments repeated with 3 seeds (42, 43, 44). We report mean $\pm$ standar
 
 \noindent
 \textbf{Threat 4: Hyperparameter confounds across versions.}
-Learning rate (v1/v2: 2e-4, v3: 8e-5), batch size (v1: 4, v2: 6, v3: 8), and LoRA rank (v1: 32, v2/v3: 16) differ across quantization levels (Table~\ref{tab:hyperparameters}), potentially confounding quantization effects with hyperparameter choices.
+Learning rate (v1/v2: 2e-4, v3: 8e-5), batch size (v1: 4, v2: 6, v3: 8), LoRA rank (v1: 32, v2/v3: 16), and sequence length (v1: 2048, v2: 1024, v3: 768) differ across quantization levels (Table~\ref{tab:hyperparameters}), potentially confounding quantization effects with hyperparameter choices.
 
 \noindent
 \textbf{Mitigation:}
@@ -1045,7 +1048,7 @@ Large-scale corpus (1M+ documents) not tested.
 \section{Replication Package}
 \label{sec:replication}
 
-To facilitate reproducibility and enable community validation, we provide a comprehensive replication package at \url{https://github.com/uniflow-project/ase-replication}. The package includes: (1)~complete source code for the UniFlow system (12 adapters, FIFO orchestration via LangGraph~\citep{langchain2023}, hybrid retrieval, fine-tuning scripts for v1/v2/v3); (2)~data download and preprocessing scripts for SAMSum~\citep{gliwa2019samsum} and DialogSum~\citep{chen2021dialogsum}, along with a 500-query test set with ground truth annotations; (3)~fine-tuned model checkpoints hosted on HuggingFace Hub (\url{https://huggingface.co/uniflow}) for all three quantization variants plus the bge-small-en-v1.5~\citep{bge2023} embedding model; and (4)~evaluation scripts for ROUGE scoring, retrieval metrics, and GPU profiling, with Jupyter notebooks for result visualization.
+To facilitate reproducibility and enable community validation, we provide a comprehensive replication package at \url{https://github.com/uniflow-system/ase-replication}. The package includes: (1)~complete source code for the UniFlow system (12 adapters, FIFO orchestration via LangGraph~\citep{langgraph2024}, hybrid retrieval, fine-tuning scripts for v1/v2/v3); (2)~data download and preprocessing scripts for SAMSum~\citep{gliwa2019samsum} and DialogSum~\citep{chen2021dialogsum}, along with a 500-query test set with ground truth annotations; (3)~fine-tuned model checkpoints hosted on HuggingFace Hub (\url{https://huggingface.co/uniflow-system}) for all three quantization variants plus the bge-small-en-v1.5~\citep{bge2023} embedding model; and (4)~evaluation scripts for ROUGE scoring, retrieval metrics, and GPU profiling, with Jupyter notebooks for result visualization.
 
 All experiments are fully specified for reproduction: random seeds are documented (42 for main results, 43/44 for variance estimation), exact library versions are pinned in \texttt{requirements.txt} (PyTorch 2.1.0, Transformers 4.36.0), and data preprocessing is deterministic (sorted by document ID). Hyperparameters are provided as commented JSON configuration files. Minimal hardware requirements are an RTX 3050 8GB GPU, 16GB RAM, and 50GB disk space. End-to-end replication takes approximately 2--3 days (1--2 hours setup, 8 hours training for v3, 4--6 hours evaluation), at an estimated cost of \$25 on a cloud GPU (AWS p3.2xlarge) or no additional cost on comparable consumer hardware. We commit to maintaining the replication package for 5 years.
 
@@ -1083,7 +1086,7 @@ This paper investigated multi-source RAG system design through four research que
 
 Our evaluation yields four key findings. \textbf{RQ1:} 4-bit quantization simultaneously improves performance (27\% lower training loss) and resource efficiency (75\% memory reduction), challenging conventional precision-performance assumptions. \textbf{RQ2:} Hexagonal Architecture enables modular multi-source integration with minimal overhead (65ms, 16\% of total latency). \textbf{RQ3:} Quantization provides implicit regularization through gradient norm reduction, eliminating need for explicit dropout. \textbf{RQ4:} Hybrid retrieval (RRF) outperforms single strategies by 9--40\% across metrics, with largest gains on multi-hop queries.
 
-The most surprising contribution is the \textit{quantization paradox}: aggressive 4-bit precision \textit{improves} (not degrades) fine-tuning performance. This finding contradicts prevailing assumptions in PEFT literature and has profound implications for democratizing LLM research—consumer GPUs (RTX 3050 8GB) can now achieve SOTA performance previously requiring enterprise hardware.
+The most surprising contribution is the \textit{quantization paradox}: aggressive 4-bit precision \textit{improves} (not degrades) fine-tuning performance. This finding contradicts prevailing assumptions in PEFT literature and has profound implications for democratizing LLM research—consumer GPUs (RTX 3050 8GB) can now achieve competitive performance previously requiring enterprise hardware.
 
 \subsection{Implications for Research and Practice}
 \label{sec:conclusion-implications}
@@ -1103,7 +1106,7 @@ The most surprising contribution is the \textit{quantization paradox}: aggressiv
 
 \textbf{Long-Term (Novel Research Directions):} The quantization paradox opens several research frontiers. (1) \textit{Theoretical analysis}: Prove implicit regularization bounds for quantized fine-tuning using PAC-Bayes framework; characterize optimal quantization level as function of dataset size, model capacity. (2) \textit{Extreme quantization}: Investigate 1-bit weights (BitNet), ternary quantization, learnable quantization grids. (3) \textit{Architectural patterns}: Extend Hexagonal Architecture to training pipelines, model serving, MLOps workflows; develop maintainability metrics for ML systems. (4) \textit{Agentic RAG}: Enable LLM to dynamically select retrieval strategy, decompose complex queries, plan multi-step retrieval. These directions require interdisciplinary collaboration between ML efficiency, software architecture, and information retrieval communities.
 
-Our replication package (Section~\ref{sec:replication}) provides foundation for these extensions. We invite community to build upon UniFlow architecture, validate findings across models/datasets, and explore novel quantization-architecture-retrieval synergies.
+Our replication package (Section~\ref{sec:replication}) provides foundation for these extensions. We invite the community to build upon the UniFlow architecture, validate findings across models/datasets, and explore novel quantization-architecture-retrieval synergies.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % BACK MATTER (Springer Nature format)
@@ -1120,7 +1123,7 @@ This research was supported by Gazi University Department of Computer Engineerin
 % DATA AVAILABILITY STATEMENT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \bmhead{Data Availability}
-All code, data, and models are publicly available in our replication package at \url{https://github.com/uniflow-project/ase-replication}. Fine-tuned model checkpoints are hosted on HuggingFace Hub at \url{https://huggingface.co/uniflow}. Datasets (SAMSum, DialogSum) are available through HuggingFace Datasets under their respective licenses.
+All code, data, and models are publicly available in our replication package at \url{https://github.com/uniflow-system/ase-replication}. Fine-tuned model checkpoints are hosted on HuggingFace Hub at \url{https://huggingface.co/uniflow-system}. Datasets (SAMSum, DialogSum) are available through HuggingFace Datasets under their respective licenses.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % DECLARATIONS (Springer Nature format)
@@ -1142,7 +1145,7 @@ Not applicable.
 Not applicable.
 
 \bmhead{Code Availability}
-Source code is available at \url{https://github.com/uniflow-project/ase-replication}.
+Source code is available at \url{https://github.com/uniflow-system/ase-replication}.
 
 \bmhead{Author Contributions}
 \textbf{Tunahan Büyükgebiz} and \textbf{Toprak Necat Gök} contributed equally: Conceptualization, Software, Investigation, Formal Analysis, Validation, Writing – Original Draft, Writing – Review \& Editing, Visualization.
