@@ -33,6 +33,7 @@ uniflow.md
 # Springer template PDFs
 sn-article-template/*.pdf
 
-# Figure build artifacts (keep only .pdf and .tex)
+# Figure build artifacts and generation scripts (keep only .pdf and .tex)
 figures/*.aux
 figures/*.log
+figures/gen_*.py
